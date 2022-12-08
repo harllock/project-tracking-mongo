@@ -17,8 +17,8 @@ const Customer: React.FC = () => {
       <Head>
         <title>{meta.page}</title>
       </Head>
-      <InfoBar></InfoBar>
-      <Main></Main>
+      <InfoBar meta={meta}></InfoBar>
+      <Main meta={meta}></Main>
     </>
   )
 }

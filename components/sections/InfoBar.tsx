@@ -5,13 +5,18 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.dark[4],
     width: "20%",
     minWidth: "20%",
+    marginRight: 20,
     boxShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
     display: "flex",
     flexDirection: "column",
   },
 }))
 
-const InfoBar: React.FC = () => {
+interface _Props {
+  meta: object
+}
+
+const InfoBar: React.FC<_Props> = ({ meta }) => {
   const { classes } = useStyles()
 
   return <div className={classes.infoBar}>InfoBar</div>
