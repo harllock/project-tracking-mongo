@@ -1,20 +1,18 @@
 import { useEffect } from "react"
 import { useAtom } from "jotai"
 
-import { dataAtom, testAtom } from "../../store"
+import { dataAtom } from "../../store"
 
 const UseSearch = () => {
   const [, dataSet] = useAtom(dataAtom)
-  const [test] = useAtom(testAtom)
 
   useEffect(() => {
     ;(async () => {
       const body = {}
       const result = await _post(`/api/customers/search`, body)
-      console.log(1111, result)
-      dataSet({ a: Math.random() })
+      dataSet(result)
     })()
-  }, [test])
+  }, [])
 }
 
 export default UseSearch

@@ -17,5 +17,11 @@ module.exports = {
         explicitTypes: "preserve",
       },
     },
+    {
+      files: "*.mongodb",
+      options: {
+        parser: "babel",
+      },
+    },
   ],
 }

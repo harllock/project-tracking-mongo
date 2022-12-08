@@ -1,7 +1,7 @@
 import { createStyles } from "@mantine/core"
 
 const useStyles = createStyles(() => ({
-  main: {
+  content: {
     paddingLeft: "20px",
     paddingTop: "20px",
     paddingBottom: "20px",
@@ -21,14 +21,14 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-interface _Main {
+interface _Content {
   children: JSX.Element
 }
 
-const Main: React.FC<_Main> = ({ children }) => {
+const Content: React.FC<_Content> = ({ children }) => {
   const { classes } = useStyles()
 
-  return <div className={classes.main}>{children}</div>
+  return <div className={classes.content}>{children}</div>
 }
 
-export default Main
+export default Content
