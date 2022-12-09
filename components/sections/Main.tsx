@@ -3,6 +3,8 @@ import { createStyles } from "@mantine/core"
 import ToolBar from "../sections/ToolBar"
 import Table from "../table/Table"
 
+import { _Meta } from "../interfaces/_Meta"
+
 const useStyles = createStyles(() => ({
   main: {
     width: "80%",
@@ -13,10 +15,10 @@ const useStyles = createStyles(() => ({
 }))
 
 interface _Props {
-  meta: object
+  meta: _Meta
 }
 
-const Main: React.FC<_Props> = ({ meta }) => {
+const Main: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
   return (

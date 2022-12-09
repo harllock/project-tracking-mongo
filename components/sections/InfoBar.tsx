@@ -1,5 +1,7 @@
 import { createStyles } from "@mantine/core"
 
+import { _Meta } from "../interfaces/_Meta"
+
 const useStyles = createStyles((theme) => ({
   infoBar: {
     backgroundColor: theme.colors.dark[4],
@@ -13,10 +15,10 @@ const useStyles = createStyles((theme) => ({
 }))
 
 interface _Props {
-  meta: object
+  meta: _Meta
 }
 
-const InfoBar: React.FC<_Props> = ({ meta }) => {
+const InfoBar: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
   return <div className={classes.infoBar}>InfoBar</div>

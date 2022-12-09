@@ -9,12 +9,12 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-interface _Root {
+interface _Props {
   /** multiple children component */
   children: JSX.Element[]
 }
 
-const Root: React.FC<_Root> = ({ children }) => {
+const Root: React.FC<_Props> = ({ children }: _Props) => {
   const { classes } = useStyles()
 
   return <div className={classes.root}>{children}</div>

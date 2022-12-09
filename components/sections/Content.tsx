@@ -21,11 +21,11 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-interface _Content {
+interface _Props {
   children: JSX.Element
 }
 
-const Content: React.FC<_Content> = ({ children }) => {
+const Content: React.FC<_Props> = ({ children }: _Props) => {
   const { classes } = useStyles()
 
   return <div className={classes.content}>{children}</div>
