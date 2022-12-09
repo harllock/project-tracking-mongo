@@ -8,7 +8,7 @@ interface _StyleProps {
 }
 
 const useStyles = createStyles((theme, { width, color }: _StyleProps) => ({
-  tableHeaderCell: {
+  header: {
     borderBottomStyle: "solid",
     borderBottomColor: theme.colors.gray[2],
     borderRightStyle: "solid",
@@ -31,7 +31,7 @@ interface _Props {
   }
 }
 
-const TableHeaderCell: React.FC<_Props> = ({ field }) => {
+const Header: React.FC<_Props> = ({ field }: _Props) => {
   const width = field.width
   /** field color is used to hide some header fields using white color;
    *  keeping the vertical space between bottom border and the hidden text
@@ -41,10 +41,10 @@ const TableHeaderCell: React.FC<_Props> = ({ field }) => {
   const { classes } = useStyles({ width, color })
 
   return (
-    <div className={classes.tableHeaderCell}>
+    <div className={classes.header}>
       <div className={classes.headerLeftPadding}>{field.header}</div>
     </div>
   )
 }
 
-export default TableHeaderCell
+export default Header

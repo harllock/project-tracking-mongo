@@ -1,9 +1,11 @@
 import { createStyles } from "@mantine/core"
 
-import TableHeaderCell from "./TableHeaderCell"
+import Header from "./Header"
+
+import { _Meta } from "../interfaces/_Meta"
 
 const useStyles = createStyles((theme) => ({
-  tableHeader: {
+  headers: {
     height: 60,
     minHeight: 60,
     width: "100%",
@@ -16,25 +18,21 @@ const useStyles = createStyles((theme) => ({
 }))
 
 interface _Props {
-  meta: {
-    table: {
-      tableFields: []
-    }
-  }
+  meta: _Meta
 }
 
-const TableHeader: React.FC<_Props> = ({ meta }) => {
+const Headers: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
   const fields = meta.table.tableFields
 
   return (
-    <div className={classes.tableHeader}>
+    <div className={classes.headers}>
       {fields.map((field, index) => {
-        return <TableHeaderCell key={index} field={field}></TableHeaderCell>
+        return <Header key={index} field={field}></Header>
       })}
     </div>
   )
 }
 
-export default TableHeader
+export default Headers

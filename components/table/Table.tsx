@@ -1,8 +1,10 @@
 import { createStyles } from "@mantine/core"
 
-import TableHeader from "./TableHeader"
-import TableContent from "./TableContent"
-import TablePagi from "./TablePagi"
+import Headers from "./Headers"
+import Content from "./Content"
+import Pagination from "./Pagination"
+
+import { _Meta } from "../interfaces/_Meta"
 
 const useStyles = createStyles(() => ({
   table: {
@@ -21,17 +23,17 @@ const useStyles = createStyles(() => ({
 }))
 
 interface _Props {
-  meta: object
+  meta: _Meta
 }
 
-const Table: React.FC<_Props> = ({ meta }) => {
+const Table: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
   return (
     <div className={classes.table}>
-      <TableHeader meta={meta}></TableHeader>
-      <TableContent meta={meta}></TableContent>
-      <TablePagi meta={meta}></TablePagi>
+      <Headers meta={meta}></Headers>
+      <Content meta={meta}></Content>
+      <Pagination meta={meta}></Pagination>
     </div>
   )
 }

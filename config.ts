@@ -156,12 +156,12 @@ export const config = {
       related: [],
       tableFields: [
         { isIcon: true, header: "Edit", width: "50px", color: white },
-        { name: "name", header: "Name", width: "20%" },
-        { name: "country", header: "Country", width: "12%" },
-        { name: "city", header: "City", width: "12%" },
-        { name: "address", header: "Address N.", width: "24%" },
-        { name: "vat", header: "VAT-ID", width: "16%" },
-        { name: "contactPerson", header: "Contact Person", width: "16%" },
+        { key: "name", header: "Name", width: "20%" },
+        { key: "country", header: "Country", width: "12%" },
+        { key: "city", header: "City", width: "12%" },
+        { key: "address", header: "Address N.", width: "24%" },
+        { key: "vat", header: "VAT-ID", width: "16%" },
+        { key: "contactPerson", header: "Contact Person", width: "16%" },
       ],
       formFields: [
         { name: "name", header: "Name *" },

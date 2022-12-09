@@ -1,5 +1,4 @@
 import Head from "next/head"
-import { useAtom } from "jotai"
 
 import { config } from "../config"
 import { root } from "../helpers/root"

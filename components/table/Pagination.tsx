@@ -1,7 +1,9 @@
 import { createStyles } from "@mantine/core"
 
+import { _Meta } from "../interfaces/_Meta"
+
 const useStyles = createStyles(() => ({
-  tablePagi: {
+  pagination: {
     heigh: 70,
     minHeight: 70,
     overflow: "hidden",
@@ -14,13 +16,13 @@ const useStyles = createStyles(() => ({
 }))
 
 interface _Props {
-  meta: object
+  meta: _Meta
 }
 
-const TablePagi: React.FC<_Props> = ({ meta }) => {
+const Pagination: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
-  return <div className={classes.tablePagi}>TablePagi</div>
+  return <div className={classes.pagination}>TablePagi</div>
 }
 
-export default TablePagi
+export default Pagination
