@@ -14,10 +14,8 @@ interface _Props {
   children: JSX.Element[]
 }
 
-const Root: React.FC<_Props> = ({ children }: _Props) => {
+export const Root: React.FC<_Props> = ({ children }: _Props) => {
   const { classes } = useStyles()
 
   return <div className={classes.root}>{children}</div>
 }
-
-export default Root

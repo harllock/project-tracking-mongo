@@ -1,7 +1,7 @@
 export interface _TableField {
-  color: string
+  color?: string
   header: string
-  isIcon: boolean
-  key: string
+  isIcon?: boolean
+  key?: string
   width: string
 }

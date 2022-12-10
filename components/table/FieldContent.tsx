@@ -17,11 +17,13 @@ interface _Props {
   }
 }
 
-const FieldContent: React.FC<_Props> = ({ field, meta, row }: _Props) => {
+export const FieldContent: React.FC<_Props> = ({
+  field,
+  meta,
+  row,
+}: _Props) => {
   const { classes } = useStyles()
   const key = field.key
 
   return <div className={classes.fieldContent}>{row[key]}</div>
 }
-
-export default FieldContent

@@ -18,10 +18,8 @@ interface _Props {
   meta: _Meta
 }
 
-const InfoBar: React.FC<_Props> = ({ meta }: _Props) => {
+export const InfoBar: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
   return <div className={classes.infoBar}>InfoBar</div>
 }
-
-export default InfoBar

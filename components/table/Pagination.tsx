@@ -19,10 +19,8 @@ interface _Props {
   meta: _Meta
 }
 
-const Pagination: React.FC<_Props> = ({ meta }: _Props) => {
+export const Pagination: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
   return <div className={classes.pagination}>TablePagi</div>
 }
-
-export default Pagination

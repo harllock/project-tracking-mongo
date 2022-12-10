@@ -12,10 +12,8 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const { classes } = useStyles()
 
   return <div className={classes.header}>Header</div>
 }
-
-export default Header

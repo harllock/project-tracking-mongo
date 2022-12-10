@@ -1,8 +1,8 @@
 import { createStyles } from "@mantine/core"
 
-import Headers from "./Headers"
-import Content from "./Content"
-import Pagination from "./Pagination"
+import { Headers } from "./Headers"
+import { Content } from "./Content"
+import { Pagination } from "./Pagination"
 
 import { _Meta } from "../interfaces/_Meta"
 
@@ -26,7 +26,7 @@ interface _Props {
   meta: _Meta
 }
 
-const Table: React.FC<_Props> = ({ meta }: _Props) => {
+export const Table: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
   return (
@@ -37,5 +37,3 @@ const Table: React.FC<_Props> = ({ meta }: _Props) => {
     </div>
   )
 }
-
-export default Table

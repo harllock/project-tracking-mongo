@@ -8,7 +8,7 @@ interface _Props {
   title: string
 }
 
-const Modal: React.FC<_Props> = ({
+export const Modal: React.FC<_Props> = ({
   children,
   onClose,
   opened,
@@ -32,5 +32,3 @@ const Modal: React.FC<_Props> = ({
     </MantineModal>
   )
 }
-
-export default Modal

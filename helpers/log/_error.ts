@@ -7,10 +7,14 @@ interface _Error {
   section: string
   summary: string
   where: string
-  stack: string
+  stack: any
 }
 
-const error = ({ section, summary, where, stack }: _Error): void => {
+/**
+ * format client side (devtools) and server side error with colors
+ * and text helpers
+ */
+export default ({ section, summary, where, stack }: _Error): void => {
   const log = console.log
   const group = console.group
 
@@ -21,5 +25,3 @@ const error = ({ section, summary, where, stack }: _Error): void => {
   log(chalk.blue.bold(`WHERE: ${where}`))
   log(prettyError.render(stack))
 }
-
-export default error

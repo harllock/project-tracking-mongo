@@ -1,6 +1,6 @@
 import { createStyles, Text } from "@mantine/core"
 
-import FieldContent from "./FieldContent"
+import { FieldContent } from "./FieldContent"
 
 import { _Meta } from "../interfaces/_Meta"
 import { _TableField } from "../interfaces/_TableField"
@@ -34,7 +34,7 @@ interface _Props {
   }
 }
 
-const Field: React.FC<_Props> = ({ field, meta, row }: _Props) => {
+export const Field: React.FC<_Props> = ({ field, meta, row }: _Props) => {
   const width = field.width
   const { classes } = useStyles({ width })
 
@@ -48,5 +48,3 @@ const Field: React.FC<_Props> = ({ field, meta, row }: _Props) => {
     </div>
   )
 }
-
-export default Field

@@ -2,7 +2,8 @@ import { createStyles } from "@mantine/core"
 import { useState } from "react"
 
 import Button from "../ui/Button"
-import Modal from "../ui/Modal"
+import { Modal } from "../ui/Modal"
+import { FormCreate } from "../forms/FormCreate"
 
 import { _Meta } from "../interfaces/_Meta"
 
@@ -29,7 +30,7 @@ interface _Props {
   meta: _Meta
 }
 
-const ToolBar: React.FC<_Props> = ({ meta }: _Props) => {
+export const ToolBar: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
   const [isModalOpen, isModalOpenSet] = useState(false)
 
@@ -41,11 +42,12 @@ const ToolBar: React.FC<_Props> = ({ meta }: _Props) => {
         onClose={() => isModalOpenSet(false)}
         size="30%"
       >
-        <p>Modal</p>
+        <FormCreate
+          meta={meta}
+          closeModal={() => isModalOpenSet(false)}
+        ></FormCreate>
       </Modal>
       <Button onClick={() => isModalOpenSet(true)}>Add Customer</Button>
     </div>
   )
 }
-
-export default ToolBar

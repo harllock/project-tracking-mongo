@@ -1,6 +1,6 @@
 import { createStyles } from "@mantine/core"
 
-import Field from "./Field"
+import { Field } from "./Field"
 
 import { _Meta } from "../interfaces/_Meta"
 
@@ -22,7 +22,7 @@ interface _Props {
   row: {}
 }
 
-const Row: React.FC<_Props> = ({ meta, row }: _Props) => {
+export const Row: React.FC<_Props> = ({ meta, row }: _Props) => {
   const { classes } = useStyles()
 
   const resource = meta.resourceName
@@ -36,5 +36,3 @@ const Row: React.FC<_Props> = ({ meta, row }: _Props) => {
     </div>
   )
 }
-
-export default Row

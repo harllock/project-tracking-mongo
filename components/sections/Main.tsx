@@ -1,7 +1,7 @@
 import { createStyles } from "@mantine/core"
 
-import ToolBar from "../sections/ToolBar"
-import Table from "../table/Table"
+import { ToolBar } from "../sections/ToolBar"
+import { Table } from "../table/Table"
 
 import { _Meta } from "../interfaces/_Meta"
 
@@ -18,7 +18,7 @@ interface _Props {
   meta: _Meta
 }
 
-const Main: React.FC<_Props> = ({ meta }: _Props) => {
+export const Main: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
   return (
@@ -28,5 +28,3 @@ const Main: React.FC<_Props> = ({ meta }: _Props) => {
     </div>
   )
 }
-
-export default Main

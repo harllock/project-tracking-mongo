@@ -1,6 +1,6 @@
 import { createStyles } from "@mantine/core"
 
-import Header from "./Header"
+import { Header } from "./Header"
 
 import { _Meta } from "../interfaces/_Meta"
 
@@ -21,7 +21,7 @@ interface _Props {
   meta: _Meta
 }
 
-const Headers: React.FC<_Props> = ({ meta }: _Props) => {
+export const Headers: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
   const fields = meta.table.tableFields
@@ -34,5 +34,3 @@ const Headers: React.FC<_Props> = ({ meta }: _Props) => {
     </div>
   )
 }
-
-export default Headers

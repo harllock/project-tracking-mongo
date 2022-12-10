@@ -25,10 +25,8 @@ interface _Props {
   children: JSX.Element
 }
 
-const Content: React.FC<_Props> = ({ children }: _Props) => {
+export const Content: React.FC<_Props> = ({ children }: _Props) => {
   const { classes } = useStyles()
 
   return <div className={classes.content}>{children}</div>
 }
-
-export default Content

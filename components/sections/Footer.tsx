@@ -15,10 +15,8 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-const Footer: React.FC = () => {
+export const Footer: React.FC = () => {
   const { classes } = useStyles()
 
   return <div className={classes.footer}>Footer</div>
 }
-
-export default Footer

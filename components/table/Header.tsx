@@ -1,6 +1,7 @@
 import { createStyles } from "@mantine/core"
 
 import { global } from "../../config"
+import { _TableField } from "../interfaces/_TableField"
 
 interface _StyleProps {
   width: string
@@ -24,14 +25,10 @@ const useStyles = createStyles((theme, { width, color }: _StyleProps) => ({
 }))
 
 interface _Props {
-  field: {
-    header: string
-    width: string
-    color: string
-  }
+  field: _TableField
 }
 
-const Header: React.FC<_Props> = ({ field }: _Props) => {
+export const Header: React.FC<_Props> = ({ field }: _Props) => {
   const width = field.width
   /** field color is used to hide some header fields using white color;
    *  keeping the vertical space between bottom border and the hidden text
@@ -46,5 +43,3 @@ const Header: React.FC<_Props> = ({ field }: _Props) => {
     </div>
   )
 }
-
-export default Header
