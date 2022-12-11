@@ -10,16 +10,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const body = req.body
     const objectId = new ObjectId(body._id)
     const query = { _id: objectId }
-    const updatedObj = root.utilsFilterProp({ obj: body, prop: "_id" })
 
-    const result = await db.collection("Customer").replaceOne(query, updatedObj)
+    const result = await db.collection("Customer").deleteOne(query)
 
-    return res.status(200).json({ status: "success", text: "Customer updated" })
+    return res.status(200).json({ status: "success", text: "Customer deleted" })
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not update a customer in db",
-      where: "/api/customers/update.js",
+      summary: "could not delete a customer in db",
+      where: "/api/customers/delete.js",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())

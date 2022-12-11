@@ -38,6 +38,13 @@ export const FormUpdateDelete: React.FC<_Props> = ({
     closeModal()
   }
 
+  const onDeleteHandler = async () => {
+    const _id = selectedRow._id
+    const res = await root.httpPost(`/api/${resourceApi}/delete`, { _id })
+    refreshDataSet(!refreshData)
+    closeModal()
+  }
+
   return (
     <form onSubmit={form.onSubmit(onSubmitHandler)}>
       {fields.map((field, index) => {
@@ -50,6 +57,9 @@ export const FormUpdateDelete: React.FC<_Props> = ({
           ></TextInput>
         )
       })}
+      <Button color="red" mr="md" onClick={onDeleteHandler} type="button">
+        Delete
+      </Button>
       <Button type="submit">Update</Button>
     </form>
   )
