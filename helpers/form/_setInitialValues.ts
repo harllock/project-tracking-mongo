@@ -46,11 +46,11 @@ function _setInitialValueForFormUpdateDelete(
   fields: _FormField[],
   selectedRow: { [key: string]: string }
 ): {} {
-  const filteredFields = fields.filter((field) => {
-    return field.key !== "_id"
-  })
+  // Object.keys(selectedRow).forEach((key) => {
+  //   if (key === "_id") delete selectedRow[key]
+  // })
 
-  return filteredFields
+  return selectedRow
 }
 
 /**

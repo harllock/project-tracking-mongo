@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form"
 import { useAtom } from "jotai"
 
 import { root } from "../../helpers/root"
-import { dataAtom, selectedRowAtom } from "../../store"
+import { dataAtom, refreshDataAtom, selectedRowAtom } from "../../store"
 import { _Meta } from "../interfaces/_Meta"
 
 interface _Props {
@@ -16,18 +16,41 @@ export const FormUpdateDelete: React.FC<_Props> = ({
   closeModal,
 }: _Props) => {
   const [, dataSet] = useAtom(dataAtom)
+  const [refreshData, refreshDataSet] = useAtom(refreshDataAtom)
   const [selectedRow, selectedRowSet] = useAtom(selectedRowAtom)
 
   const fields = meta.table.formFields
   const resource = meta.resourceName
-  console.log(5555, root.formSetInitialValues({ fields, selectedRow }))
+  const resourceApi = meta.page
+
   const form = useForm({
     initialValues: root.formSetInitialValues({ fields, selectedRow }),
   })
 
-  const onSubmitHandler = async () => {
-    console.log("FormUpdateDelete submit handler")
+  interface _FormValues {
+    [key: string]: string
   }
 
-  return <form onSubmit={form.onSubmit(onSubmitHandler)}></form>
+  const onSubmitHandler = async (formValues: _FormValues) => {
+    const body = { ...formValues }
+    const res = await root.httpPost(`/api/${resourceApi}/update`, body)
+    refreshDataSet(!refreshData)
+    closeModal()
+  }
+
+  return (
+    <form onSubmit={form.onSubmit(onSubmitHandler)}>
+      {fields.map((field, index) => {
+        return (
+          <TextInput
+            key={index}
+            label={field.header}
+            {...form.getInputProps(field.key)}
+            mb="sm"
+          ></TextInput>
+        )
+      })}
+      <Button type="submit">Update</Button>
+    </form>
+  )
 }
