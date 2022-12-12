@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const query = { _id: objectId }
     const updatedObj = root.utilsFilterProp({ obj: body, prop: "_id" })
 
-    const result = await db.collection("Customer").replaceOne(query, updatedObj)
+    await db.collection("Customer").replaceOne(query, updatedObj)
 
     return res.status(200).json({ status: "success", text: "Customer updated" })
   } catch (error) {

@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const objectId = new ObjectId(body._id)
     const query = { _id: objectId }
 
-    const result = await db.collection("Customer").deleteOne(query)
+    await db.collection("Customer").deleteOne(query)
 
     return res.status(200).json({ status: "success", text: "Customer deleted" })
   } catch (error) {

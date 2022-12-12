@@ -4,7 +4,7 @@ import { useAtom } from "jotai"
 import { Row } from "./Row"
 import { ClickWrapper } from "../ui/ClickWrapper"
 
-import { _Meta } from "../interfaces/_Meta"
+import { _Meta } from "../../types/interfaces/_Meta"
 import { dataAtom, selectedRowAtom } from "../../store"
 
 const useStyles = createStyles(() => ({

@@ -3,7 +3,7 @@ import { createStyles } from "@mantine/core"
 import { ToolBar } from "../sections/ToolBar"
 import { Table } from "../table/Table"
 
-import { _Meta } from "../interfaces/_Meta"
+import { _Meta } from "../../types/interfaces/_Meta"
 
 const useStyles = createStyles(() => ({
   main: {

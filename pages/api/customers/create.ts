@@ -7,7 +7,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const body = req.body
     const { db } = await mongoConnect()
+
     await db.collection("Customer").insertOne(body)
+
     return res.status(200).json({ status: "success", text: "Customer added" })
   } catch (err) {
     root.logError({

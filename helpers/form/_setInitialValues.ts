@@ -1,5 +1,5 @@
 import { root } from "../root"
-import { _FormField } from "../../components/interfaces/_FormField"
+import { _FormField } from "../../types/interfaces/_FormField"
 
 interface _Props {
   fields: _FormField[]

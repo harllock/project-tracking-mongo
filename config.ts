@@ -1,3 +1,5 @@
+import { _FetchType } from "./types/enum/_FetchType"
+
 const blue = "#1971C2"
 const green = "#1e9846"
 const grey = "#4b4d52"
@@ -111,10 +113,11 @@ export const config = {
     gauges: {
       main: [
         {
-          gaugeName: "gaugeMainResultsCount",
-          title: "items",
           color: blue,
-          table: "Customer",
+          fetch: _FetchType.ATOM,
+          label: "items",
+          name: "rowCount",
+          target: "count",
         },
       ],
       row: [

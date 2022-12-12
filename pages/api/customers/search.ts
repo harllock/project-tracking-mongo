@@ -6,7 +6,28 @@ import { root } from "../../../helpers/root"
 export default async (_req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { db } = await mongoConnect()
-    const result = await db.collection("Customer").find({}).toArray()
+
+    const cursor = db.collection("Customer").aggregate([
+      { $match: {} },
+      {
+        $facet: {
+          data: [],
+          count: [{ $count: "count" }],
+        },
+      },
+    ])
+
+    const [
+      {
+        data,
+        count: [{ count }],
+      },
+    ] = await cursor.toArray()
+
+    const result = { data, count }
+
+    console.log(result)
+
     res.status(200).json(result)
   } catch (err) {
     root.logError({

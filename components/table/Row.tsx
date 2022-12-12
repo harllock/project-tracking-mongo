@@ -2,7 +2,7 @@ import { createStyles } from "@mantine/core"
 
 import { Field } from "./Field"
 
-import { _Meta } from "../interfaces/_Meta"
+import { _Meta } from "../../types/interfaces/_Meta"
 
 const useStyles = createStyles((theme) => ({
   row: {

@@ -1,7 +1,7 @@
 import { createStyles } from "@mantine/core"
 
 import { global } from "../../config"
-import { _TableField } from "../interfaces/_TableField"
+import { _TableField } from "../../types/interfaces/_TableField"
 
 interface _StyleProps {
   width: string

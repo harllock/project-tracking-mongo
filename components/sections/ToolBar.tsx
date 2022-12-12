@@ -5,7 +5,7 @@ import Button from "../ui/Button"
 import { Modal } from "../ui/Modal"
 import { FormCreate } from "../forms/FormCreate"
 
-import { _Meta } from "../interfaces/_Meta"
+import { _Meta } from "../../types/interfaces/_Meta"
 
 const useStyles = createStyles(() => ({
   toolBar: {

@@ -1,6 +1,8 @@
-import { createStyles } from "@mantine/core"
+import { createStyles, Title } from "@mantine/core"
 
-import { _Meta } from "../interfaces/_Meta"
+import { GaugesPanel } from "./GaugesPanel"
+
+import { _Meta } from "../../types/interfaces/_Meta"
 
 const useStyles = createStyles((theme) => ({
   infoBar: {
@@ -12,6 +14,15 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+
+  infoBarTitle: {
+    height: 100,
+    minHeight: 100,
+    marginBottom: 20,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }))
 
 interface _Props {
@@ -21,5 +32,16 @@ interface _Props {
 export const InfoBar: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
 
-  return <div className={classes.infoBar}>InfoBar</div>
+  const title = meta.page.toUpperCase()
+
+  return (
+    <div className={classes.infoBar}>
+      <div className={classes.infoBarTitle}>
+        <Title color="white" order={3}>
+          {title}
+        </Title>
+      </div>
+      <GaugesPanel meta={meta}></GaugesPanel>
+    </div>
+  )
 }

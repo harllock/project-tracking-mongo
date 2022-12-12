@@ -2,14 +2,14 @@ import { createStyles, Text } from "@mantine/core"
 
 import { FieldContent } from "./FieldContent"
 
-import { _Meta } from "../interfaces/_Meta"
-import { _TableField } from "../interfaces/_TableField"
+import { _Meta } from "../../types/interfaces/_Meta"
+import { _TableField } from "../../types/interfaces/_TableField"
 
-interface _StyleProps {
+interface _StylesProps {
   width: string
 }
 
-const useStyles = createStyles((theme, { width }: _StyleProps) => ({
+const useStyles = createStyles((theme, { width }: _StylesProps) => ({
   field: {
     height: 25,
     width,

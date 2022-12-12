@@ -2,7 +2,7 @@ import { createStyles } from "@mantine/core"
 
 import { Header } from "./Header"
 
-import { _Meta } from "../interfaces/_Meta"
+import { _Meta } from "../../types/interfaces/_Meta"
 
 const useStyles = createStyles((theme) => ({
   headers: {

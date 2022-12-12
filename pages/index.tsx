@@ -5,7 +5,7 @@ import { Main } from "../components/sections/Main"
 
 import { config } from "../config"
 import { root } from "../helpers/root"
-import { _Meta } from "../components/interfaces/_Meta"
+import { _Meta } from "../types/interfaces/_Meta"
 
 const Customer: React.FC = () => {
   const meta = config.customer

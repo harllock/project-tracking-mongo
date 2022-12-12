@@ -4,7 +4,7 @@ import { Headers } from "./Headers"
 import { Content } from "./Content"
 import { Pagination } from "./Pagination"
 
-import { _Meta } from "../interfaces/_Meta"
+import { _Meta } from "../../types/interfaces/_Meta"
 
 const useStyles = createStyles(() => ({
   table: {

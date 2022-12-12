@@ -5,7 +5,7 @@ import { Rows } from "./Rows"
 import { Modal } from "../ui/Modal"
 import { FormUpdateDelete } from "../forms/FormUpdateDelete"
 
-import { _Meta } from "../interfaces/_Meta"
+import { _Meta } from "../../types/interfaces/_Meta"
 
 const useStyles = createStyles(() => ({
   content: {

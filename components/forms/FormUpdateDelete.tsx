@@ -4,7 +4,7 @@ import { useAtom } from "jotai"
 
 import { root } from "../../helpers/root"
 import { dataAtom, refreshDataAtom, selectedRowAtom } from "../../store"
-import { _Meta } from "../interfaces/_Meta"
+import { _Meta } from "../../types/interfaces/_Meta"
 
 interface _Props {
   meta: _Meta
