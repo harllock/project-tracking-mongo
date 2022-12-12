@@ -1,9 +1,11 @@
 import { createStyles, Text } from "@mantine/core"
+import { useAtom } from "jotai"
 
 import { FieldContent } from "./FieldContent"
 
 import { _Meta } from "../../types/interfaces/_Meta"
 import { _TableField } from "../../types/interfaces/_TableField"
+import { selectedRowAtom } from "../../store/"
 
 interface _StylesProps {
   width: string
@@ -24,6 +26,12 @@ const useStyles = createStyles((theme, { width }: _StylesProps) => ({
   tableFieldText: {
     overflow: "hidden",
   },
+
+  /** remove border if the row is colored (selected, closed..) */
+  colored: {
+    borderBottomStyle: "none",
+    borderRightStyle: "none",
+  },
 }))
 
 interface _Props {
@@ -36,12 +44,18 @@ interface _Props {
 
 export const Field: React.FC<_Props> = ({ field, meta, row }: _Props) => {
   const width = field.width
-  const { classes } = useStyles({ width })
+  const { classes, cx } = useStyles({ width })
 
+  const [selectedRow] = useAtom(selectedRowAtom)
   const resource = meta.resourceName
 
   return (
-    <div className={classes.field}>
+    <div
+      className={cx(classes.field, {
+        [classes.colored]: row.status === "closed",
+        [classes.colored]: selectedRow._id === row._id,
+      })}
+    >
       <Text className={classes.tableFieldText}>
         <FieldContent field={field} meta={meta} row={row}></FieldContent>
       </Text>

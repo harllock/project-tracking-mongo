@@ -3,6 +3,7 @@ import { createStyles } from "@mantine/core"
 import { Field } from "./Field"
 
 import { _Meta } from "../../types/interfaces/_Meta"
+import { _Row } from "../../types/interfaces/_Row"
 
 const useStyles = createStyles((theme) => ({
   row: {
@@ -19,7 +20,7 @@ const useStyles = createStyles((theme) => ({
 
 interface _Props {
   meta: _Meta
-  row: {}
+  row: _Row
 }
 
 export const Row: React.FC<_Props> = ({ meta, row }: _Props) => {
