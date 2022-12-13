@@ -95,7 +95,6 @@ export const Rows: React.FC<_Props> = ({ meta, openModal }: _Props) => {
           )
         })
       }
-      <p>{JSON.stringify(selectedRow)}</p>
     </div>
   )
 }

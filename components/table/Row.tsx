@@ -26,7 +26,6 @@ interface _Props {
 export const Row: React.FC<_Props> = ({ meta, row }: _Props) => {
   const { classes } = useStyles()
 
-  const resource = meta.resourceName
   const fields = meta.table.tableFields
 
   return (
