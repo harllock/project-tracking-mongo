@@ -1,17 +1,22 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 
+import { global } from "../../../config"
 import { mongoConnect } from "../../../lib/mongoConnect"
 import { root } from "../../../helpers/root"
 
-export default async (_req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { db } = await mongoConnect()
+
+    const body = req.body
+    const pageSize = global.pageSize
+    const skip = body.offset
 
     const cursor = db.collection("Customer").aggregate([
       { $match: {} },
       {
         $facet: {
-          data: [],
+          data: [{ $sort: { name: 1 } }, { $skip: skip }, { $limit: pageSize }],
           count: [{ $count: "count" }],
         },
       },
