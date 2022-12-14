@@ -53,7 +53,7 @@ export const Rows: React.FC<_Props> = ({ meta, openModal }: _Props) => {
      * if the two objectId are different or there isn't a currentRow
      * (nothing is selected) then the click select the row
      */
-    selectedRow.objectId && selectedRow.objectId === row.objectId
+    selectedRow._id && selectedRow._id === row._id
       ? selectedRowSet({})
       : selectedRowSet(row)
   }

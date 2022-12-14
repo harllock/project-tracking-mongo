@@ -3,6 +3,7 @@ import { _FetchType } from "./types/enum/_FetchType"
 const blue = "#1971C2"
 const green = "#1e9846"
 const grey = "#4b4d52"
+const greyGrape = "#493752"
 const orange = "#de9a33"
 const pink = "#ED8998"
 const red = "#eb4034"
@@ -10,7 +11,7 @@ const white = "white"
 
 export const global = {
   pageSize: 10,
-  colors: { blue, green, grey, orange, pink, red },
+  colors: { blue, green, grey, greyGrape, orange, pink, red },
 }
 
 export const config = {

@@ -1,4 +1,4 @@
-import { Anchor, createStyles } from "@mantine/core"
+import { createStyles } from "@mantine/core"
 import Link from "next/link"
 import { useAtom } from "jotai"
 

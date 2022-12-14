@@ -1,12 +1,21 @@
 import { createStyles, Title } from "@mantine/core"
+import { useAtom } from "jotai"
 
 import { GaugesPanel } from "./GaugesPanel"
 
+import { global } from "../../config"
 import { _Meta } from "../../types/interfaces/_Meta"
+import { selectedRowAtom } from "../../store"
 
-const useStyles = createStyles((theme) => ({
+const greyGrape = global.colors.greyGrape
+
+interface _StyledProps {
+  isSelected: boolean
+}
+
+const useStyles = createStyles((theme, { isSelected }: _StyledProps) => ({
   infoBar: {
-    backgroundColor: theme.colors.dark[4],
+    backgroundColor: isSelected ? greyGrape : theme.colors.dark[4],
     width: "20%",
     minWidth: "20%",
     marginRight: 20,
@@ -30,7 +39,10 @@ interface _Props {
 }
 
 export const InfoBar: React.FC<_Props> = ({ meta }: _Props) => {
-  const { classes } = useStyles()
+  const [selectedRow] = useAtom(selectedRowAtom)
+  const isSelected = selectedRow._id ? true : false
+
+  const { classes } = useStyles({ isSelected })
 
   const title = meta.page.toUpperCase()
 
