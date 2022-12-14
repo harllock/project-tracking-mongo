@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form"
 import { useAtom } from "jotai"
 
 import { root } from "../../helpers/root"
-import { dataAtom, refreshDataAtom } from "../../store"
+import { messageAtom, refreshDataAtom } from "../../store"
 import { _Meta } from "../../types/interfaces/_Meta"
 
 interface _Props {
@@ -12,10 +12,9 @@ interface _Props {
 }
 
 export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
-  const [, dataSet] = useAtom(dataAtom)
+  const [, messageSet] = useAtom(messageAtom)
   const [refreshData, refreshDataSet] = useAtom(refreshDataAtom)
   const fields = meta.table.formFields
-  const resource = meta.resourceName
   const resourceApi = meta.page
 
   const form = useForm({
@@ -29,6 +28,7 @@ export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
   const onSubmitHandler = async (formValues: _FormValues) => {
     const body = { ...formValues }
     const res = await root.httpPost(`/api/${resourceApi}/create`, body)
+    messageSet(res)
     refreshDataSet(!refreshData)
     closeModal()
   }

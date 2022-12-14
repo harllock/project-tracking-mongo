@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form"
 import { useAtom } from "jotai"
 
 import { root } from "../../helpers/root"
-import { dataAtom, refreshDataAtom, selectedRowAtom } from "../../store"
+import { messageAtom, refreshDataAtom, selectedRowAtom } from "../../store"
 import { _Meta } from "../../types/interfaces/_Meta"
 
 interface _Props {
@@ -15,7 +15,7 @@ export const FormUpdateDelete: React.FC<_Props> = ({
   meta,
   closeModal,
 }: _Props) => {
-  const [, dataSet] = useAtom(dataAtom)
+  const [, messageSet] = useAtom(messageAtom)
   const [refreshData, refreshDataSet] = useAtom(refreshDataAtom)
   const [selectedRow, selectedRowSet] = useAtom(selectedRowAtom)
 
@@ -34,6 +34,7 @@ export const FormUpdateDelete: React.FC<_Props> = ({
   const onSubmitHandler = async (formValues: _FormValues) => {
     const body = { ...formValues }
     const res = await root.httpPost(`/api/${resourceApi}/update`, body)
+    messageSet(res)
     refreshDataSet(!refreshData)
     closeModal()
   }
@@ -41,6 +42,7 @@ export const FormUpdateDelete: React.FC<_Props> = ({
   const onDeleteHandler = async () => {
     const _id = selectedRow._id
     const res = await root.httpPost(`/api/${resourceApi}/delete`, { _id })
+    messageSet(res)
     refreshDataSet(!refreshData)
     closeModal()
   }
