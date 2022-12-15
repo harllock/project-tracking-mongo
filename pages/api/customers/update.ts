@@ -7,10 +7,15 @@ import { root } from "../../../helpers/root"
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { db } = await mongoConnect()
-    const body = req.body
+
+    const body: { [key: string]: string } = req.body
+
+    const magicSearch = _createMagicSearchField(body)
+    body.magicSearch = magicSearch
+
     const objectId = new ObjectId(body._id)
     const query = { _id: objectId }
-    const updatedObj = root.utilsFilterProp({ obj: body, prop: "_id" })
+    const updatedObj = root.utilsFilterProp({ obj: body, props: ["_id"] })
 
     await db.collection("Customer").replaceOne(query, updatedObj)
 
@@ -24,4 +29,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     })
     return res.status(500).json(root.messageContactSupport())
   }
+}
+
+function _createMagicSearchField(body: { [key: string]: string }) {
+  const noSearchFields = ["_id", "magicSearch"]
+
+  const filteredObj = root.utilsFilterProp({
+    obj: body,
+    props: noSearchFields,
+  })
+
+  const magicSearchField = Object.values(filteredObj)
+    .filter((value) => value !== "")
+    .join(" ")
+
+  return magicSearchField
 }

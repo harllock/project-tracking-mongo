@@ -11,9 +11,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const body = req.body
     const pageSize = global.pageSize
     const skip = body.offset
+    const magicSearch = body.magicSearch
+    const search = new RegExp(magicSearch, "i")
 
     const cursor = db.collection("Customer").aggregate([
-      { $match: {} },
+      {
+        $match: {
+          $and: [{ magicSearch: { $regex: search } }],
+        },
+      },
       {
         $facet: {
           data: [{ $sort: { name: 1 } }, { $skip: skip }, { $limit: pageSize }],
@@ -22,16 +28,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     ])
 
-    const [
-      {
-        data,
-        count: [{ count }],
-      },
-    ] = await cursor.toArray()
+    /** mongoDB returns an array of Documents */
+    const mongoResultArray = await cursor.toArray()
+    /** this is the Document resulting from the query */
+    const mongoResult = mongoResultArray[0]
 
+    /** get the data array */
+    const data: [] = mongoResult.data
+    /**
+     * if count array result is empty return 0 as count, otherwise
+     * extract count number
+     */
+    const count: [] =
+      mongoResult.count.length === 0 ? 0 : mongoResult.count[0].count
+
+    // create the result object
     const result = { data, count }
-
-    console.log(result)
 
     res.status(200).json(result)
   } catch (err) {
@@ -44,3 +56,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json(root.messageContactSupport())
   }
 }
+
+// const cursor = db.collection("Customer").aggregate([
+//   {
+//     $match: {
+//       $and: [
+//         { magicSearch: { $regex: /rome/i } },
+//         { magicSearch: { $regex: /IT12345/i } },
+//       ],
+//     },
+//   },
+//   {
+//     $facet: {
+//       data: [{ $sort: { name: 1 } }, { $skip: skip }, { $limit: pageSize }],
+//       count: [{ $count: "count" }],
+//     },
+//   },
+// ])

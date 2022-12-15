@@ -10,7 +10,7 @@ export default async (url: string, data: {}) => {
       },
     })
 
-    if (!res.ok) throw new Error("network problem, check fetch response")
+    if (res.ok === false) return root.messageContactSupport()
 
     const result = await res.json()
     return result

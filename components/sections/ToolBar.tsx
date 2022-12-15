@@ -4,6 +4,7 @@ import { useState } from "react"
 import Button from "../ui/Button"
 import { Modal } from "../ui/Modal"
 import { FormCreate } from "../forms/FormCreate"
+import { Search } from "../ui/Search"
 
 import { _Meta } from "../../types/interfaces/_Meta"
 
@@ -19,10 +20,15 @@ const useStyles = createStyles(() => ({
     width: "calc(100% - 40px)",
     marginBottom: 20,
     paddingLeft: 16,
+    paddingRight: 16,
     boxShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+
+  searchFields: {
+    display: "flex",
   },
 }))
 
@@ -36,6 +42,7 @@ export const ToolBar: React.FC<_Props> = ({ meta }: _Props) => {
 
   return (
     <div className={classes.toolBar}>
+      <Button onClick={() => isModalOpenSet(true)}>Add Customer</Button>
       <Modal
         title={`Add new`}
         opened={isModalOpen}
@@ -47,7 +54,9 @@ export const ToolBar: React.FC<_Props> = ({ meta }: _Props) => {
           closeModal={() => isModalOpenSet(false)}
         ></FormCreate>
       </Modal>
-      <Button onClick={() => isModalOpenSet(true)}>Add Customer</Button>
+      <div className={classes.searchFields}>
+        <Search></Search>
+      </div>
     </div>
   )
 }

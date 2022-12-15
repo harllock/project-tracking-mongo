@@ -27,7 +27,6 @@ const useStyles = createStyles((_theme, { background }: _StyledProps) => ({
 
 export const Footer: React.FC = () => {
   const [message] = useAtom(messageAtom)
-
   /**
    * set Footer background color
    * set to blue if message Atom is null

@@ -35,6 +35,7 @@ export const FormUpdateDelete: React.FC<_Props> = ({
     const body = { ...formValues }
     const res = await root.httpPost(`/api/${resourceApi}/update`, body)
     messageSet(res)
+    selectedRowSet({})
     refreshDataSet(!refreshData)
     closeModal()
   }
@@ -43,6 +44,7 @@ export const FormUpdateDelete: React.FC<_Props> = ({
     const _id = selectedRow._id
     const res = await root.httpPost(`/api/${resourceApi}/delete`, { _id })
     messageSet(res)
+    selectedRowSet({})
     refreshDataSet(!refreshData)
     closeModal()
   }
