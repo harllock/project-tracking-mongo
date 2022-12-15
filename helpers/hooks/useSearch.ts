@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useAtom } from "jotai"
 
 import { root } from "../root"
+import { _Meta } from "../../types/interfaces/_Meta"
 import {
   dataAtom,
   magicSearchAtom,
@@ -11,7 +12,8 @@ import {
   refreshDataAtom,
 } from "../../store"
 
-export default () => {
+export default (meta: _Meta) => {
+  const resourcePage = meta.page
   const [, dataSet] = useAtom(dataAtom)
   const [magicSearch] = useAtom(magicSearchAtom)
   const [, mainGaugesSet] = useAtom(mainGaugesAtom)
@@ -24,7 +26,7 @@ export default () => {
     const body = { offset, magicSearch }
 
     const _fetchData = async () => {
-      const result = await root.httpPost(`/api/customers/search`, body)
+      const result = await root.httpPost(`/api/${resourcePage}/search`, body)
 
       /**
        * if apis return an error object set the client side message

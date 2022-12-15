@@ -53,8 +53,11 @@ export const Header: React.FC = () => {
   const AdminLinks = () => {
     return (
       <>
-        <Link href="/" className={classes.link}>
+        <Link href="/" className={classes.link} onClick={onClickHandler}>
           Customers
+        </Link>
+        <Link href="/users" className={classes.link} onClick={onClickHandler}>
+          Users
         </Link>
       </>
     )

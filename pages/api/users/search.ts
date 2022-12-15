@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from "next"
 
 import { global } from "../../../config"
 import { mongoConnect } from "../../../lib/mongoConnect"
@@ -7,7 +7,7 @@ import { root } from "../../../helpers/root"
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { db } = await mongoConnect()
-    const collection = db.collection("Customer")
+    const collection = db.collection("User")
 
     const body = req.body
     const skip = body.offset
@@ -36,6 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     /** extract the data array */
     const data: {}[] = mongoResult.data
+
     /**
      * extract the result count
      * if count array result is empty return a count of 0 otherwise
@@ -51,27 +52,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (err) {
     root.logError({
       section: "api",
-      summary: "could not search activities on db",
-      where: "/api/customers/search.js",
+      summary: "could not search users on db",
+      where: "/api/users/search.js",
       stack: err,
     })
     return res.status(500).json(root.messageContactSupport())
   }
 }
-
-// const cursor = db.collection("Customer").aggregate([
-//   {
-//     $match: {
-//       $and: [
-//         { magicSearch: { $regex: /rome/i } },
-//         { magicSearch: { $regex: /IT12345/i } },
-//       ],
-//     },
-//   },
-//   {
-//     $facet: {
-//       data: [{ $sort: { name: 1 } }, { $skip: skip }, { $limit: pageSize }],
-//       count: [{ $count: "count" }],
-//     },
-//   },
-// ])

@@ -7,8 +7,8 @@ import { config } from "../config"
 import { root } from "../helpers/root"
 import { _Meta } from "../types/interfaces/_Meta"
 
-const Customer: React.FC = () => {
-  const meta = config.customer
+const User: React.FC = () => {
+  const meta = config.user
 
   root.useSearch(meta)
 
@@ -23,4 +23,4 @@ const Customer: React.FC = () => {
   )
 }
 
-export default Customer
+export default User
