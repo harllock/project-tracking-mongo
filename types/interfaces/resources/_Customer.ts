@@ -14,5 +14,4 @@ export interface _Customer {
   name: string
   phone: string
   vat: string
-  [key: string]: string | undefined | ObjectId
 }

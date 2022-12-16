@@ -3,14 +3,14 @@ import type { NextApiRequest, NextApiResponse } from "next"
 
 import { mongoConnect } from "../../../lib/mongoConnect"
 import { root } from "../../../helpers/root"
-import { _Customer } from "../../../types/interfaces/resources/_Customer"
+import { _User } from "../../../types/interfaces/resources/_User"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { db } = await mongoConnect()
-    const collection = db.collection("Customer")
+    const collection = db.collection("User")
 
-    const body: _Customer = req.body
+    const body: _User = req.body
 
     const magicSearch = _createMagicSearchField(body)
     body.magicSearch = magicSearch
@@ -22,19 +22,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     await collection.replaceOne(query, updatedObj)
 
-    return res.status(200).json({ status: "success", text: "Customer updated" })
+    return res.status(200).json({ status: "success", text: "User updated" })
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not update a customer in db",
-      where: "/api/customers/update.js",
+      summary: "could not update a user in db",
+      where: "/api/users/update.js",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())
   }
 }
 
-function _createMagicSearchField(body: _Customer) {
+function _createMagicSearchField(body: _User) {
   const noSearchFields = ["_id", "magicSearch"]
 
   /**

@@ -1,40 +1,34 @@
-import { ObjectId } from "mongodb"
-import type { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from "next"
 
 import { mongoConnect } from "../../../lib/mongoConnect"
 import { root } from "../../../helpers/root"
-import { _Customer } from "../../../types/interfaces/resources/_Customer"
+import { _User } from "../../../types/interfaces/resources/_User"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { db } = await mongoConnect()
-    const collection = db.collection("Customer")
+    const collection = db.collection("User")
 
-    const body: _Customer = req.body
+    const body: _User = req.body
 
     const magicSearch = _createMagicSearchField(body)
     body.magicSearch = magicSearch
 
-    const objectId = new ObjectId(body._id)
-    const query = { _id: objectId }
-    const obj = body as unknown as { [key: string]: string }
-    const updatedObj = root.utilsFilterProp({ obj, props: ["_id"] })
+    await collection.insertOne(body)
 
-    await collection.replaceOne(query, updatedObj)
-
-    return res.status(200).json({ status: "success", text: "Customer updated" })
-  } catch (error) {
+    return res.status(200).json({ status: "success", text: "User added" })
+  } catch (err) {
     root.logError({
       section: "api",
-      summary: "could not update a customer in db",
-      where: "/api/customers/update.js",
-      stack: error,
+      summary: "could not insert new user in db",
+      where: "/api/users/create.js",
+      stack: err,
     })
-    return res.status(500).json(root.messageContactSupport())
+    res.status(500).json(root.messageContactSupport())
   }
 }
 
-function _createMagicSearchField(body: _Customer) {
+function _createMagicSearchField(body: _User) {
   const noSearchFields = ["_id", "magicSearch"]
 
   /**

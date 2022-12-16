@@ -7,19 +7,20 @@ import { _Customer } from "../../../types/interfaces/resources/_Customer"
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { db } = await mongoConnect()
+    const collection = db.collection("Customer")
 
-    const body: { [key: string]: string } = req.body
+    const body: _Customer = req.body
 
     const magicSearch = _createMagicSearchField(body)
     body.magicSearch = magicSearch
 
-    await db.collection("Customer").insertOne(body)
+    await collection.insertOne(body)
 
     return res.status(200).json({ status: "success", text: "Customer added" })
   } catch (err) {
     root.logError({
       section: "api",
-      summary: "could not a new customer in db",
+      summary: "could not insert new customer in db",
       where: "/api/customers/create.js",
       stack: err,
     })
@@ -27,11 +28,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-function _createMagicSearchField(body: { [key: string]: string }) {
+function _createMagicSearchField(body: _Customer) {
   const noSearchFields = ["_id", "magicSearch"]
 
+  /**
+   * typecast body from _Customer to index signature
+   * https://bobbyhadz.com/blog/typescript-conversion-of-type-to-type-may-be-mistake
+   */
+  const obj = body as unknown as { [key: string]: string }
+
   const filteredObj = root.utilsFilterProp({
-    obj: body,
+    obj,
     props: noSearchFields,
   })
 
