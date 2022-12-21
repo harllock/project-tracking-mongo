@@ -2,7 +2,6 @@ import { createStyles } from "@mantine/core"
 import { useAtom } from "jotai"
 
 import { Row } from "./Row"
-import { ClickWrapper } from "../ui/ClickWrapper"
 
 import { _Meta } from "../../types/interfaces/_Meta"
 import { _Row } from "../../types/interfaces/_Row"
@@ -78,20 +77,20 @@ export const Rows: React.FC<_Props> = ({ meta, openModal }: _Props) => {
            * components holding a different row from the iteration
            */
           return (
-            <ClickWrapper
-              key={index}
-              onClickHandler={() => onClickHandler(row)}
-              onClickKeyHandler={() => onClickKeyHandler(row)}
+            <div
+              className={cx(classes.rowWrapper, {
+                [classes.closed]: row.status === "closed",
+                [classes.selected]: selectedRow._id === row._id,
+              })}
             >
-              <div
-                className={cx(classes.rowWrapper, {
-                  [classes.closed]: row.status === "closed",
-                  [classes.selected]: selectedRow._id === row._id,
-                })}
-              >
-                <Row key={index} meta={meta} row={row}></Row>
-              </div>
-            </ClickWrapper>
+              <Row
+                key={index}
+                meta={meta}
+                onClickHandler={() => onClickHandler(row)}
+                onClickKeyHandler={() => onClickKeyHandler(row)}
+                row={row}
+              ></Row>
+            </div>
           )
         })
       }

@@ -20,7 +20,6 @@ export const FormUpdateDelete: React.FC<_Props> = ({
   const [selectedRow, selectedRowSet] = useAtom(selectedRowAtom)
 
   const fields = meta.table.formFields
-  const resource = meta.resourceName
   const resourceApi = meta.page
 
   const form = useForm({

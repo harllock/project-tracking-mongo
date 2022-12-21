@@ -20,10 +20,17 @@ const useStyles = createStyles((theme) => ({
 
 interface _Props {
   meta: _Meta
+  onClickHandler: () => void
+  onClickKeyHandler: () => void
   row: _Row
 }
 
-export const Row: React.FC<_Props> = ({ meta, row }: _Props) => {
+export const Row: React.FC<_Props> = ({
+  meta,
+  onClickHandler,
+  onClickKeyHandler,
+  row,
+}: _Props) => {
   const { classes } = useStyles()
 
   const fields = meta.table.tableFields
@@ -31,7 +38,16 @@ export const Row: React.FC<_Props> = ({ meta, row }: _Props) => {
   return (
     <div className={classes.row}>
       {fields.map((field, index) => {
-        return <Field key={index} meta={meta} row={row} field={field}></Field>
+        return (
+          <Field
+            key={index}
+            meta={meta}
+            onClickHandler={onClickHandler}
+            onClickKeyHandler={onClickKeyHandler}
+            row={row}
+            field={field}
+          ></Field>
+        )
       })}
     </div>
   )

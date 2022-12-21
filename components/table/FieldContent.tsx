@@ -1,7 +1,10 @@
 import { createStyles } from "@mantine/core"
 
+import { EditIcon, EditAndKeyIcon } from "./Icons"
+
 import { _Meta } from "../../types/interfaces/_Meta"
 import { _TableField } from "../../types/interfaces/_TableField"
+import { _FieldType } from "../../types/enum/_FieldType"
 
 const useStyles = createStyles(() => ({
   fieldContent: {
@@ -12,6 +15,8 @@ const useStyles = createStyles(() => ({
 interface _Props {
   field: _TableField
   meta: _Meta
+  onClickKeyHandler: () => void
+  resource: string
   row: {
     [key: string]: string
   }
@@ -20,10 +25,32 @@ interface _Props {
 export const FieldContent: React.FC<_Props> = ({
   field,
   meta,
+  onClickKeyHandler,
+  resource,
   row,
 }: _Props) => {
   const { classes } = useStyles()
   const key = field.key
+  const isIcon = field.type === _FieldType.ICON
 
-  return <div className={classes.fieldContent}>{row[key]}</div>
+  const content = () => {
+    if (isIcon) {
+      /** if current field resource is user render edit and key icons */
+      if (resource === "user") {
+        return (
+          <EditAndKeyIcon
+            onEditClick={onClickKeyHandler}
+            meta={meta}
+            row={row}
+          />
+        )
+      } else {
+        return <EditIcon onEditClick={onClickKeyHandler} row={row} />
+      }
+    } else {
+      return row[key]
+    }
+  }
+
+  return <div className={classes.fieldContent}>{content()}</div>
 }

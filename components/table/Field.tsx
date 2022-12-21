@@ -5,6 +5,7 @@ import { FieldContent } from "./FieldContent"
 
 import { _Meta } from "../../types/interfaces/_Meta"
 import { _TableField } from "../../types/interfaces/_TableField"
+import { _FieldType } from "../../types/enum/_FieldType"
 import { selectedRowAtom } from "../../store/"
 
 interface _StylesProps {
@@ -37,17 +38,26 @@ const useStyles = createStyles((theme, { width }: _StylesProps) => ({
 interface _Props {
   field: _TableField
   meta: _Meta
+  onClickHandler: () => void
+  onClickKeyHandler: () => void
   row: {
     [key: string]: string
   }
 }
 
-export const Field: React.FC<_Props> = ({ field, meta, row }: _Props) => {
+export const Field: React.FC<_Props> = ({
+  field,
+  meta,
+  onClickHandler,
+  onClickKeyHandler,
+  row,
+}: _Props) => {
   const width = field.width
   const { classes, cx } = useStyles({ width })
 
   const [selectedRow] = useAtom(selectedRowAtom)
   const resource = meta.resourceName
+  const isIcon = field.type === _FieldType.ICON
 
   return (
     <div
@@ -55,9 +65,22 @@ export const Field: React.FC<_Props> = ({ field, meta, row }: _Props) => {
         [classes.colored]: row.status === "closed",
         [classes.colored]: selectedRow._id === row._id,
       })}
+      onClick={(e) => {
+        if (isIcon) return
+        // if click event has mac metaKey or windows ctrlKey properties
+        // (user pressed one of that keys while clicking) then trigger
+        // onClickKeyHandler, otherwise trigger onClickHandler
+        e.metaKey || e.ctrlKey ? onClickKeyHandler() : onClickHandler()
+      }}
     >
       <Text className={classes.tableFieldText}>
-        <FieldContent field={field} meta={meta} row={row}></FieldContent>
+        <FieldContent
+          field={field}
+          meta={meta}
+          onClickKeyHandler={onClickKeyHandler}
+          resource={resource}
+          row={row}
+        ></FieldContent>
       </Text>
     </div>
   )

@@ -10,6 +10,9 @@ export interface _Meta {
   resourceName: string
   table: {
     formFields: _FormField[]
+    name: string
+    related: []
+    sortBy: string[]
     tableFields: _TableField[]
   }
 }
