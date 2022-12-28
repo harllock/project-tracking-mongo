@@ -3,6 +3,9 @@ import { Edit, Key, Copy } from "tabler-icons-react"
 import { useAtom } from "jotai"
 import { useState } from "react"
 
+import { Modal } from "../ui/Modal"
+import { FormUpdatePassword } from "../forms/FormUpdatePassword"
+
 import { _Meta } from "../../types/interfaces/_Meta"
 import { messageAtom, refreshDataAtom } from "../../store"
 
@@ -13,7 +16,7 @@ const useStyles = createStyles((theme) => ({
 }))
 
 interface _Props {
-  meta?: _Meta
+  meta: _Meta
   onEditClick: () => void
   row: {
     [key: string]: string
@@ -26,7 +29,7 @@ interface _Props {
  * when user click edit icon we use onClickKeyHandler from parent
  * component to open FormUpdateDelete
  */
-export const EditIcon: React.FC<_Props> = ({ onEditClick }: _Props) => {
+export const EditIcon: React.FC<_Props> = ({ meta, onEditClick }: _Props) => {
   const { classes } = useStyles()
 
   return (
@@ -41,8 +44,9 @@ export const EditIcon: React.FC<_Props> = ({ onEditClick }: _Props) => {
  * component to open FormUpdateDelete;
  */
 export const EditAndKeyIcon: React.FC<_Props> = ({
-  row,
+  meta,
   onEditClick,
+  row,
 }: _Props) => {
   const { classes } = useStyles()
   const [isModalOpen, isModalOpenSet] = useState(false)
@@ -51,6 +55,18 @@ export const EditAndKeyIcon: React.FC<_Props> = ({
     <>
       <Edit size={16} className={classes.leftIcon} onClick={onEditClick} />
       <Key size={16} onClick={() => isModalOpenSet(true)} />
+      <Modal
+        title="Change password"
+        opened={isModalOpen}
+        onClose={() => isModalOpenSet(false)}
+        size="30%"
+      >
+        <FormUpdatePassword
+          meta={meta}
+          row={row}
+          closeModal={() => isModalOpenSet(false)}
+        ></FormUpdatePassword>
+      </Modal>
     </>
   )
 }

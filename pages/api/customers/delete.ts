@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     root.logError({
       section: "api",
       summary: "could not delete a customer in db",
-      where: "/api/customers/delete.js",
+      where: "/api/customers/delete.ts",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())

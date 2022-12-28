@@ -82,9 +82,9 @@ export const Rows: React.FC<_Props> = ({ meta, openModal }: _Props) => {
                 [classes.closed]: row.status === "closed",
                 [classes.selected]: selectedRow._id === row._id,
               })}
+              key={index}
             >
               <Row
-                key={index}
                 meta={meta}
                 onClickHandler={() => onClickHandler(row)}
                 onClickKeyHandler={() => onClickKeyHandler(row)}

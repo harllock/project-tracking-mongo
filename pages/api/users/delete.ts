@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     root.logError({
       section: "api",
       summary: "could not delete a user in db",
-      where: "/api/users/delete.js",
+      where: "/api/users/delete.ts",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())

@@ -1,3 +1,7 @@
+/**
+ * Content component holds central part of the app layout between
+ * header and footer
+ */
 import { createStyles } from "@mantine/core"
 
 const useStyles = createStyles(() => ({
@@ -18,6 +22,7 @@ const useStyles = createStyles(() => ({
     width: "100%",
     flexGrow: 1,
     display: "flex",
+    justifyContent: "center",
   },
 }))
 

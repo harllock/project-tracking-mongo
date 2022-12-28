@@ -1,4 +1,6 @@
 import Head from "next/head"
+import { getSession } from "next-auth/react"
+import { GetServerSidePropsContext } from "next"
 
 import { InfoBar } from "../components/sections/InfoBar"
 import { Main } from "../components/sections/Main"
@@ -24,3 +26,13 @@ const User: React.FC = () => {
 }
 
 export default User
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context)
+
+  if (!session) {
+    return { redirect: { destination: "/login", permanent: false } }
+  }
+
+  return { props: session }
+}

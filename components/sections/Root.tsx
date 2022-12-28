@@ -1,3 +1,4 @@
+/** Root component holds header, content and footer */
 import { createStyles } from "@mantine/core"
 
 const useStyles = createStyles((theme) => ({

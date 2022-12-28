@@ -23,11 +23,11 @@ export default ({ fields, selectedRow = null }: _Props) => {
     if (selectedRow)
       return _setInitialValueForFormUpdateDelete(fields, selectedRow)
     else return _setInitialValueForFormCreate(fields)
-  } catch (error: any) {
+  } catch (error) {
     root.logError({
       section: "root/form",
       summary: "could not set initial value for the form",
-      where: "helpers/form/_setInitialValues.js",
+      where: "helpers/form/_setInitialValues.ts",
       stack: error,
     })
   }

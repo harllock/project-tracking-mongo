@@ -49,12 +49,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const result = { data, count }
 
     res.status(200).json(result)
-  } catch (err) {
+  } catch (error) {
     root.logError({
       section: "api",
       summary: "could not search users on db",
-      where: "/api/users/search.js",
-      stack: err,
+      where: "/api/users/search.ts",
+      stack: error,
     })
     return res.status(500).json(root.messageContactSupport())
   }

@@ -14,11 +14,11 @@ export default async (url: string, data: {}) => {
 
     const result = await res.json()
     return result
-  } catch (error: any) {
+  } catch (error) {
     root.logError({
       section: "root/http",
       summary: "could not post data to the api",
-      where: "helpers/http/_post.js",
+      where: "helpers/http/_post.ts",
       stack: error,
     })
   }

@@ -52,7 +52,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     root.logError({
       section: "api",
       summary: "could not search activities on db",
-      where: "/api/customers/search.js",
+      where: "/api/customers/search.ts",
       stack: err,
     })
     return res.status(500).json(root.messageContactSupport())

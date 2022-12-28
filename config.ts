@@ -211,7 +211,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Name *",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "name",
           selection: null,
           type: _FieldType.TEXT,
@@ -219,7 +219,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Country",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "country",
           selection: null,
           type: _FieldType.TEXT,
@@ -227,7 +227,7 @@ export const config: _Config = {
         {
           default: null,
           header: "City",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "city",
           selection: null,
           type: _FieldType.TEXT,
@@ -235,7 +235,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Address",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "address",
           selection: null,
           type: _FieldType.TEXT,
@@ -243,7 +243,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Address N",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "addressNumber",
           selection: null,
           type: _FieldType.TEXT,
@@ -251,7 +251,7 @@ export const config: _Config = {
         {
           default: null,
           header: "CAP",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "cap",
           selection: null,
           type: _FieldType.TEXT,
@@ -259,7 +259,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Phone",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "phone",
           selection: null,
           type: _FieldType.TEXT,
@@ -267,7 +267,7 @@ export const config: _Config = {
         {
           default: null,
           header: "VAT-ID",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "vat",
           selection: null,
           type: _FieldType.TEXT,
@@ -275,7 +275,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Contact Person",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "contactPerson",
           selection: null,
           type: _FieldType.TEXT,
@@ -283,7 +283,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Contact Person eMail",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "contactPersonEmail",
           selection: null,
           type: _FieldType.TEXT,
@@ -291,7 +291,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Contact Person Phone",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "contactPersonPhone",
           selection: null,
           type: _FieldType.TEXT,
@@ -640,7 +640,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Name *",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "name",
           selection: null,
           type: _FieldType.TEXT,
@@ -648,7 +648,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Email *",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "email",
           selection: null,
           type: _FieldType.TEXT,
@@ -656,7 +656,7 @@ export const config: _Config = {
         {
           default: "user",
           header: "Role",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "role",
           selection: [_Role.ADMIN, _Role.USER],
           type: _FieldType.SELECTION,
@@ -672,7 +672,7 @@ export const config: _Config = {
         {
           default: null,
           header: "City",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "address",
           selection: null,
           type: _FieldType.TEXT,
@@ -680,7 +680,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Phone",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "phone",
           selection: null,
           type: _FieldType.TEXT,
@@ -688,7 +688,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Skill",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "skill",
           selection: null,
           type: _FieldType.TEXT,
@@ -696,7 +696,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Contract",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "contract",
           selection: null,
           type: _FieldType.TEXT,
@@ -704,7 +704,7 @@ export const config: _Config = {
         {
           default: null,
           header: "Hourly Wage *",
-          hide: false,
+          hide: [_Hide.FALSE],
           key: "hourlyWage",
           selection: null,
           type: _FieldType.TEXT,

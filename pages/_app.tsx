@@ -1,6 +1,7 @@
 import { AppProps } from "next/app"
 import Head from "next/head"
 import { MantineProvider, MantineThemeOverride } from "@mantine/core"
+import { SessionProvider } from "next-auth/react"
 
 import { Root } from "../components/sections/Root"
 import { Content } from "../components/sections/Content"
@@ -13,11 +14,13 @@ const customTheme: MantineThemeOverride = {
   datesLocale: "it",
 }
 
-export default function App(props: AppProps) {
-  const { Component, pageProps } = props
-
+export default function App({
+  Component,
+  /** inject session coming from NextAuth in pageProps */
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   return (
-    <>
+    <SessionProvider>
       <Head>
         <title>Page title</title>
         <meta
@@ -35,6 +38,6 @@ export default function App(props: AppProps) {
           <Footer></Footer>
         </Root>
       </MantineProvider>
-    </>
+    </SessionProvider>
   )
 }

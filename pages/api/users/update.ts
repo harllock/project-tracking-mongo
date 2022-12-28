@@ -12,22 +12,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const body: _User = req.body
 
-    const magicSearch = _createMagicSearchField(body)
-    body.magicSearch = magicSearch
+    body.magicSearch = _createMagicSearchField(body)
 
     const objectId = new ObjectId(body._id)
     const query = { _id: objectId }
-    const obj = body as unknown as { [key: string]: string }
-    const updatedObj = root.utilsFilterProp({ obj, props: ["_id"] })
+    body._id = objectId
 
-    await collection.replaceOne(query, updatedObj)
+    await collection.replaceOne(query, body)
 
     return res.status(200).json({ status: "success", text: "User updated" })
   } catch (error) {
     root.logError({
       section: "api",
       summary: "could not update a user in db",
-      where: "/api/users/update.js",
+      where: "/api/users/update.ts",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())
@@ -35,22 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 function _createMagicSearchField(body: _User) {
-  const noSearchFields = ["_id", "magicSearch"]
-
-  /**
-   * typecast body from _Customer to index signature
-   * https://bobbyhadz.com/blog/typescript-conversion-of-type-to-type-may-be-mistake
-   */
-  const obj = body as unknown as { [key: string]: string }
-
-  const filteredObj = root.utilsFilterProp({
-    obj,
-    props: noSearchFields,
-  })
-
-  const magicSearchField = Object.values(filteredObj)
-    .filter((value) => value !== "")
-    .join(" ")
-
-  return magicSearchField
+  const noSearchFields = ["_id", "magicSearch", "password"]
+  const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
+  return magicSearch
 }

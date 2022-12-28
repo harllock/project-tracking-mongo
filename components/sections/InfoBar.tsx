@@ -19,6 +19,7 @@ const useStyles = createStyles((theme, { isSelected }: _StyledProps) => ({
     width: "20%",
     minWidth: "20%",
     marginRight: 20,
+    marginLeft: 20,
     boxShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
     display: "flex",
     flexDirection: "column",
