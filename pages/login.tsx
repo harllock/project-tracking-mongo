@@ -71,15 +71,20 @@ const Form: React.FC = () => {
      * using getSession method (useSession is used only inside component)
      */
     const session = await getSession()
+    const userName = session?.user?.name.replace(/^./, (firstLetter) =>
+      firstLetter.toUpperCase()
+    )
     const userRole = session?.user?.role
 
     if (userRole === "admin") {
       /** if role is admin redirect to root (customers page) */
       router.replace("/")
+      return messageSet({ status: "success", text: `Welcome ${userName}` })
     }
     if (userRole === "user") {
       /** if role is user redirect to activities page */
       router.replace("/activities")
+      return messageSet({ status: "success", text: `Welcome ${userName}` })
     }
   }
 

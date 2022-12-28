@@ -10,7 +10,7 @@ declare module "next-auth" {
    */
   interface Session {
     user: {
-      /** add a role string */
+      name: string
       role: string
     }
   }
