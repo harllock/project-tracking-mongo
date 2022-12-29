@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next"
+import { getSession } from "next-auth/react"
 
 import { mongoConnect } from "../../../lib/mongoConnect"
 import { root } from "../../../helpers/root"
@@ -6,6 +7,10 @@ import { _Customer } from "../../../types/interfaces/resources/_Customer"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    const session = await getSession({ req })
+    if (!session)
+      return res.status(401).json(root.messageUnauthenticatedRequest())
+
     const { db } = await mongoConnect()
     const collection = db.collection("Customer")
 
