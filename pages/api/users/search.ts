@@ -35,9 +35,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     ])
 
-    /** mongoDB returns an array of Documents */
+    /** get an array of documents from the cursor */
     const mongoResultArray = await cursor.toArray()
-    /** this is the Document returned by the query */
+
+    /** there is only one element in the array */
     const mongoResult = mongoResultArray[0]
 
     /** extract the data array */

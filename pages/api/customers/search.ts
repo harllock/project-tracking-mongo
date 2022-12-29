@@ -34,13 +34,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       },
     ])
 
-    /** mongoDB returns an array of Documents */
+    /** get an array of documents from the cursor */
     const mongoResultArray = await cursor.toArray()
-    /** this is the Document returned by the query */
+
+    /** there is only one element in the array */
     const mongoResult = mongoResultArray[0]
 
     /** extract the data array */
     const data: {}[] = mongoResult.data
+
     /**
      * extract the result count
      * if count array result is empty return a count of 0 otherwise
@@ -53,12 +55,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const result = { data, count }
 
     res.status(200).json(result)
-  } catch (err) {
+  } catch (error) {
     root.logError({
       section: "api",
       summary: "could not search activities on db",
       where: "/api/customers/search.ts",
-      stack: err,
+      stack: error,
     })
     return res.status(500).json(root.messageContactSupport())
   }
