@@ -1,10 +1,11 @@
 import { createStyles } from "@mantine/core"
 import Link from "next/link"
 import { useAtom } from "jotai"
+import { signOut, useSession } from "next-auth/react"
 
 import { Logo } from "../ui/Logo"
 
-import { selectedRowAtom } from "../../store"
+import { magicSearchAtom, selectedRowAtom } from "../../store"
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -44,10 +45,19 @@ const useStyles = createStyles((theme) => ({
 export const Header: React.FC = () => {
   const { classes } = useStyles()
 
+  const [, magicSearchSet] = useAtom(magicSearchAtom)
   const [, selectedRowSet] = useAtom(selectedRowAtom)
+  const { data: session, status } = useSession()
 
-  const onClickHandler = async () => {
+  const onClickHandler = () => {
     selectedRowSet({})
+    magicSearchSet("")
+  }
+
+  const onSignOutHandler = () => {
+    selectedRowSet({})
+    magicSearchSet("")
+    signOut()
   }
 
   const AdminLinks = () => {
@@ -59,6 +69,28 @@ export const Header: React.FC = () => {
         <Link href="/users" className={classes.link} onClick={onClickHandler}>
           Users
         </Link>
+        <Link href="/test" className={classes.link} onClick={onClickHandler}>
+          TEST
+        </Link>
+        <Link href="/login" className={classes.link} onClick={onSignOutHandler}>
+          Sign Out
+        </Link>
+      </>
+    )
+  }
+
+  const UserLinks = () => {
+    return (
+      <>
+        <Link href="/" className={classes.link} onClick={onClickHandler}>
+          Customers
+        </Link>
+        <Link href="/users" className={classes.link} onClick={onClickHandler}>
+          Users
+        </Link>
+        <Link href="/login" className={classes.link} onClick={onSignOutHandler}>
+          Sign Out
+        </Link>
       </>
     )
   }
@@ -68,7 +100,15 @@ export const Header: React.FC = () => {
       <div className={classes.logoContainer}>
         <Logo></Logo>
       </div>
-      <div className={classes.linkContainer}>{AdminLinks()}</div>
+      <div className={classes.linkContainer}>
+        {status === "unauthenticated" || status === "loading" ? (
+          ""
+        ) : session?.user.role === "admin" ? (
+          <AdminLinks></AdminLinks>
+        ) : (
+          <UserLinks></UserLinks>
+        )}
+      </div>
     </div>
   )
 }
