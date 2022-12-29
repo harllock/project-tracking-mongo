@@ -33,10 +33,6 @@ export default ({ fields, selectedRow = null }: _Props) => {
   }
 }
 
-interface _PreviousValue {
-  [key: string]: string
-}
-
 /**
  * FormUpdateDelete case:
  * using fields and selectedRow return a new object like this:
@@ -49,7 +45,6 @@ function _setInitialValueForFormUpdateDelete(
   // Object.keys(selectedRow).forEach((key) => {
   //   if (key === "_id") delete selectedRow[key]
   // })
-
   return selectedRow
 }
 
@@ -58,13 +53,15 @@ function _setInitialValueForFormUpdateDelete(
  * return a new object like this:
  * {country: '', address: '', ...}
  */
+
+interface _Obj {
+  [key: string]: string
+}
+
 function _setInitialValueForFormCreate(fields: _FormField[]): {} {
-  const emptyFields = fields.reduce(
-    (previousValue: _PreviousValue, currentValue) => {
-      previousValue[currentValue.key] = ""
-      return previousValue
-    },
-    {}
-  )
+  const emptyFields = fields.reduce((obj: _Obj, currentValue) => {
+    obj[currentValue.key] = ""
+    return obj
+  }, {})
   return emptyFields
 }

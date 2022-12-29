@@ -40,9 +40,11 @@ export const ToolBar: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
   const [isModalOpen, isModalOpenSet] = useState(false)
 
+  const resource = meta.table.name
+
   return (
     <div className={classes.toolBar}>
-      <Button onClick={() => isModalOpenSet(true)}>Add Customer</Button>
+      <Button onClick={() => isModalOpenSet(true)}>{`Add ${resource}`}</Button>
       <Modal
         title={`Add new`}
         opened={isModalOpen}

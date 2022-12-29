@@ -2,7 +2,6 @@ import { _Meta } from "./types/interfaces/_Meta"
 import { _FetchType } from "./types/enum/_FetchType"
 import { _FieldType } from "./types/enum/_FieldType"
 import { _Hide } from "./types/enum/_Hide"
-import { _Role } from "./types/enum/_Role"
 
 const blue = "#1971C2"
 const green = "#1e9846"
@@ -658,7 +657,7 @@ export const config: _Config = {
           header: "Role",
           hide: [_Hide.FALSE],
           key: "role",
-          selection: [_Role.ADMIN, _Role.USER],
+          selection: ["admin", "user"],
           type: _FieldType.SELECTION,
         },
         {

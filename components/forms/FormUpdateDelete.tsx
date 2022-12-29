@@ -1,4 +1,4 @@
-import { Button, TextInput } from "@mantine/core"
+import { Button, Select, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useAtom } from "jotai"
 
@@ -53,6 +53,16 @@ export const FormUpdateDelete: React.FC<_Props> = ({
     <form onSubmit={form.onSubmit(onSubmitHandler)}>
       {fields.map((field, index) => {
         if (field.hide.includes(_Hide.UPDATE)) return
+        if (field.selection)
+          return (
+            <Select
+              key={index}
+              label={field.header}
+              data={field.selection}
+              {...form.getInputProps(field.key)}
+              mb={"sm"}
+            ></Select>
+          )
         return (
           <TextInput
             key={index}

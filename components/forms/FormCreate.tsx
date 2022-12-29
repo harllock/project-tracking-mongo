@@ -1,4 +1,4 @@
-import { Button, TextInput } from "@mantine/core"
+import { Button, Select, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useAtom } from "jotai"
 
@@ -36,6 +36,18 @@ export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
   return (
     <form onSubmit={form.onSubmit(onSubmitHandler)}>
       {fields.map((field, index) => {
+        if (field.selection)
+          return (
+            <Select
+              key={index}
+              /** defaultValue not working anymore with current mantine version */
+              defaultValue={"user"}
+              label={field.header}
+              data={field.selection}
+              {...form.getInputProps(field.key)}
+              mb={"sm"}
+            ></Select>
+          )
         return (
           <TextInput
             key={index}
