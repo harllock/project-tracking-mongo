@@ -6,6 +6,7 @@ import { root } from "../../helpers/root"
 import { messageAtom, refreshDataAtom, selectedRowAtom } from "../../store"
 import { _Meta } from "../../types/interfaces/_Meta"
 import { _Hide } from "../../types/enum/_Hide"
+import { _FieldType } from "../../types/enum/_FieldType"
 
 interface _Props {
   meta: _Meta
@@ -53,7 +54,7 @@ export const FormUpdateDelete: React.FC<_Props> = ({
     <form onSubmit={form.onSubmit(onSubmitHandler)}>
       {fields.map((field, index) => {
         if (field.hide.includes(_Hide.UPDATE)) return
-        if (field.selection)
+        if (field.type === _FieldType.SELECTION)
           return (
             <Select
               key={index}

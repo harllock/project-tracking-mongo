@@ -12,6 +12,7 @@ import { _Meta } from "../types/interfaces/_Meta"
 const User: React.FC = () => {
   const meta = config.user
 
+  /** every time page renders atoms will be filled with fetched data */
   root.useSearch(meta)
 
   return (

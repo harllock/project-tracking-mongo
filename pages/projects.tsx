@@ -9,9 +9,10 @@ import { config } from "../config"
 import { root } from "../helpers/root"
 import { _Meta } from "../types/interfaces/_Meta"
 
-const Customer: React.FC = () => {
-  const meta = config.customer
+const Project: React.FC = () => {
+  const meta = config.project
 
+  /** every time page renders atoms will be filled with fetched data */
   root.useSearch(meta)
 
   return (
@@ -25,7 +26,7 @@ const Customer: React.FC = () => {
   )
 }
 
-export default Customer
+export default Project
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context)

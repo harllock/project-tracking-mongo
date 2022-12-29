@@ -15,4 +15,5 @@ export interface _Meta {
     sortBy: string[]
     tableFields: _TableField[]
   }
+  title: string
 }

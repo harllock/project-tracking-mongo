@@ -6,6 +6,6 @@ export interface _FormField {
   header: string
   hide: _Hide[]
   key: string
-  selection: ["admin", "user"] | null
+  selection: string[]
   type: _FieldType
 }

@@ -5,6 +5,7 @@ import { useAtom } from "jotai"
 import { root } from "../../helpers/root"
 import { messageAtom, refreshDataAtom } from "../../store"
 import { _Meta } from "../../types/interfaces/_Meta"
+import { _FieldType } from "../../types/enum/_FieldType"
 
 interface _Props {
   meta: _Meta
@@ -36,7 +37,7 @@ export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
   return (
     <form onSubmit={form.onSubmit(onSubmitHandler)}>
       {fields.map((field, index) => {
-        if (field.selection)
+        if (field.type === _FieldType.SELECTION)
           return (
             <Select
               key={index}
