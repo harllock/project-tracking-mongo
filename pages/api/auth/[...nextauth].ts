@@ -97,7 +97,12 @@ async function _authorize(credentials) {
       throw new Error("password is incorrect")
     }
 
-    return { _id: user._id, name: user.name, role: user.role }
+    return {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    }
   } catch (err) {
     root.logError({
       section: "api",

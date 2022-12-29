@@ -58,20 +58,3 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json(root.messageContactSupport())
   }
 }
-
-// const cursor = db.collection("Customer").aggregate([
-//   {
-//     $match: {
-//       $and: [
-//         { magicSearch: { $regex: /rome/i } },
-//         { magicSearch: { $regex: /IT12345/i } },
-//       ],
-//     },
-//   },
-//   {
-//     $facet: {
-//       data: [{ $sort: { name: 1 } }, { $skip: skip }, { $limit: pageSize }],
-//       count: [{ $count: "count" }],
-//     },
-//   },
-// ])

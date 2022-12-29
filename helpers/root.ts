@@ -5,6 +5,7 @@ import formSetInitialValues from "./form/_setInitialValues"
 import httpPost from "./http/_post"
 import logError from "./log/_error"
 import messageContactSupport from "./message/_contactSupport"
+import messageUnauthenticatedRequest from "./message/_unauthenticateRequest"
 import useSearch from "./hooks/useSearch"
 import utilsFilterProps from "./utils/_filterProps"
 
@@ -27,6 +28,7 @@ export const root = {
 
   /** messages */
   messageContactSupport,
+  messageUnauthenticatedRequest,
 
   /** hooks */
   useSearch,
