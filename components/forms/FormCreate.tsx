@@ -21,6 +21,7 @@ export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
   const fields = meta.table.formFields
   const resourceApi = meta.page
 
+  /** create mantine form and set initial values */
   const form = useForm({
     initialValues: root.formSetInitialValues({ fields }),
   })
@@ -30,7 +31,10 @@ export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
   }
 
   const onSubmitHandler = async (formValues: _FormValues) => {
-    const body = { ...formValues }
+    const rawBody = { ...formValues }
+
+    const body = root.formNormalizeFormValues(rawBody)
+
     const res = await root.httpPost(`/api/${resourceApi}/create`, body)
     messageSet(res)
     refreshDataSet(!refreshData)

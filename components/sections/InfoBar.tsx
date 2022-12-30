@@ -10,12 +10,12 @@ import { selectedRowAtom } from "../../store"
 const greyGrape = global.colors.greyGrape
 
 interface _StyledProps {
-  isSelected: boolean
+  isRowSelected: boolean
 }
 
-const useStyles = createStyles((theme, { isSelected }: _StyledProps) => ({
+const useStyles = createStyles((theme, { isRowSelected }: _StyledProps) => ({
   infoBar: {
-    backgroundColor: isSelected ? greyGrape : theme.colors.dark[4],
+    backgroundColor: isRowSelected ? greyGrape : theme.colors.dark[4],
     width: "20%",
     minWidth: "20%",
     marginRight: 20,
@@ -41,9 +41,9 @@ interface _Props {
 
 export const InfoBar: React.FC<_Props> = ({ meta }: _Props) => {
   const [selectedRow] = useAtom(selectedRowAtom)
-  const isSelected = selectedRow._id ? true : false
+  const isRowSelected = selectedRow._id ? true : false
 
-  const { classes } = useStyles({ isSelected })
+  const { classes } = useStyles({ isRowSelected })
 
   const title = meta.page.toUpperCase()
 

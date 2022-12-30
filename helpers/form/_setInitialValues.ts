@@ -59,9 +59,16 @@ interface _Obj {
 }
 
 function _setInitialValueForFormCreate(fields: _FormField[]): {} {
-  const emptyFields = fields.reduce((obj: _Obj, currentValue) => {
-    obj[currentValue.key] = ""
+  const initializedFields = fields.reduce((obj: _Obj, currentValue) => {
+    /**
+     * if current field has a default value set it as field value
+     * ex: status field has default value of "open"
+     */
+    if (currentValue.default) obj[currentValue.key] = currentValue.default
+    /**
+     *  set remaing fields to empty string
+     */ else obj[currentValue.key] = ""
     return obj
   }, {})
-  return emptyFields
+  return initializedFields
 }

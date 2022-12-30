@@ -42,6 +42,7 @@ export const Rows: React.FC<_Props> = ({ meta, openModal }: _Props) => {
 
   const [data] = useAtom(dataAtom)
   const [selectedRow, selectedRowSet] = useAtom(selectedRowAtom)
+  const isRowSelected = selectedRow._id ? true : false
 
   /** when user click the row */
   const onClickHandler = (row: _Row) => {
@@ -80,7 +81,8 @@ export const Rows: React.FC<_Props> = ({ meta, openModal }: _Props) => {
             <div
               className={cx(classes.rowWrapper, {
                 [classes.closed]: row.status === "closed",
-                [classes.selected]: selectedRow._id === row._id,
+                [classes.selected]:
+                  isRowSelected && selectedRow._id === row._id,
               })}
               key={index}
             >

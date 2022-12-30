@@ -550,7 +550,7 @@ export const config: _Config = {
           default: null,
           header: "Delivery Date *",
           hide: [_Hide.FALSE],
-          key: "daliveryDate",
+          key: "deliveryDate",
           selection: [],
           type: _FieldType.DATE,
         },
@@ -587,7 +587,7 @@ export const config: _Config = {
           type: _FieldType.TEXT,
         },
         {
-          default: null,
+          default: "open",
           header: "Project Status *",
           hide: [_Hide.CREATE],
           key: "status",

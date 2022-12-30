@@ -5,7 +5,7 @@ import { signOut, useSession } from "next-auth/react"
 
 import { Logo } from "../ui/Logo"
 
-import { magicSearchAtom, selectedRowAtom } from "../../store"
+import { dataAtom, magicSearchAtom, selectedRowAtom } from "../../store"
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -45,11 +45,13 @@ const useStyles = createStyles((theme) => ({
 export const Header: React.FC = () => {
   const { classes } = useStyles()
 
+  const [, dataSet] = useAtom(dataAtom)
   const [, magicSearchSet] = useAtom(magicSearchAtom)
   const [, selectedRowSet] = useAtom(selectedRowAtom)
   const { data: session, status } = useSession()
 
   const onClickHandler = () => {
+    dataSet([{}])
     selectedRowSet({})
     magicSearchSet("")
   }
@@ -68,6 +70,13 @@ export const Header: React.FC = () => {
         </Link>
         <Link href="/users" className={classes.link} onClick={onClickHandler}>
           Users
+        </Link>
+        <Link
+          href="/projects"
+          className={classes.link}
+          onClick={onClickHandler}
+        >
+          Projects
         </Link>
         <Link href="/test" className={classes.link} onClick={onClickHandler}>
           TEST
