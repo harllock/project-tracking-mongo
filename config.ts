@@ -509,7 +509,7 @@ export const config: _Config = {
         {
           color: null,
           header: "Customer",
-          key: "customer",
+          key: "customerName",
           type: _FieldType.AUTOCOMPLETE,
           width: "16%",
         },

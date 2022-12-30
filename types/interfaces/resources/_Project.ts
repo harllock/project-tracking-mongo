@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb"
 export interface _User {
   _id?: ObjectId
   cost: number
-  customer: ObjectId
+  customerId: ObjectId
   days: number
   deliveryDate: string
   description: string
@@ -12,5 +12,5 @@ export interface _User {
   pricing: number
   startDate: string
   status: string
-  user: ObjectId
+  userId: ObjectId
 }
