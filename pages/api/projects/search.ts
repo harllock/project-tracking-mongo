@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     /** get an array of documents from the cursor */
     const mongoResultArray = await cursor.toArray()
-    console.log(1111, JSON.stringify(mongoResultArray, null, 2))
+
     /** there is only one element in the array */
     const mongoResult = mongoResultArray[0]
 

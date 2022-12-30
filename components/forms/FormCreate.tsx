@@ -2,10 +2,13 @@ import { Button, Select, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useAtom } from "jotai"
 
+import { DatePicker } from "./DatePicker"
+
 import { root } from "../../helpers/root"
 import { messageAtom, refreshDataAtom } from "../../store"
 import { _Meta } from "../../types/interfaces/_Meta"
 import { _FieldType } from "../../types/enum/_FieldType"
+import { _Hide } from "../../types/enum/_Hide"
 
 interface _Props {
   meta: _Meta
@@ -37,6 +40,9 @@ export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
   return (
     <form onSubmit={form.onSubmit(onSubmitHandler)}>
       {fields.map((field, index) => {
+        if (field.hide.includes(_Hide.CREATE)) return
+        if (field.type === _FieldType.DATE)
+          return <DatePicker key={index} field={field} form={form}></DatePicker>
         if (field.type === _FieldType.SELECTION)
           return (
             <Select

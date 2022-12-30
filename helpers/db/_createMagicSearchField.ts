@@ -1,9 +1,10 @@
 import { root } from "../root"
 import { _Customer } from "../../types/interfaces/resources/_Customer"
+import { _Project } from "../../types/interfaces/resources/_Project"
 import { _User } from "../../types/interfaces/resources/_User"
 
 interface _Props {
-  body: _Customer | _User
+  body: _Customer | _Project | _User
   noSearchFields: string[]
 }
 

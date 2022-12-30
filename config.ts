@@ -552,7 +552,7 @@ export const config: _Config = {
           hide: [_Hide.FALSE],
           key: "daliveryDate",
           selection: [],
-          type: _FieldType.TEXT,
+          type: _FieldType.DATE,
         },
         {
           default: null,
