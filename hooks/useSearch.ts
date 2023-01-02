@@ -1,8 +1,8 @@
 import { useEffect } from "react"
 import { useAtom } from "jotai"
 
-import { root } from "../root"
-import { _Meta } from "../../types/interfaces/_Meta"
+import { root } from "../helpers/root"
+import { _Meta } from "../types/interfaces/_Meta"
 import {
   dataAtom,
   magicSearchAtom,
@@ -10,9 +10,9 @@ import {
   messageAtom,
   offsetAtom,
   refreshDataAtom,
-} from "../../store"
+} from "../store"
 
-export default (meta: _Meta) => {
+export const useSearch = (meta: _Meta) => {
   const resourcePage = meta.page
   const [, dataSet] = useAtom(dataAtom)
   const [magicSearch] = useAtom(magicSearchAtom)

@@ -58,6 +58,10 @@ interface _Obj {
   [key: string]: string
 }
 
+/**
+ * set default FormCreate values for mantine form fields;
+ * even if some fields are hidden in FormCreate their value is set here
+ */
 function _setInitialValueForFormCreate(fields: _FormField[]): {} {
   const initializedFields = fields.reduce((obj: _Obj, currentValue) => {
     /**

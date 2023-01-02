@@ -4,15 +4,15 @@ import { GetServerSidePropsContext } from "next"
 
 import { InfoBar } from "../components/sections/InfoBar"
 import { Main } from "../components/sections/Main"
+import { useSearch } from "../hooks/useSearch"
 
 import { config } from "../config"
-import { root } from "../helpers/root"
 import { _Meta } from "../types/interfaces/_Meta"
 
 const Customer: React.FC = () => {
   const meta = config.customer
 
-  root.useSearch(meta)
+  useSearch(meta)
 
   return (
     <>
