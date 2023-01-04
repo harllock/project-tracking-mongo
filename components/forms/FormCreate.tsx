@@ -30,7 +30,8 @@ export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
    */
   const [autocompleteState, autocompleteDispatch] = useAutocomplete()
   const fields = meta.table.formFields
-  const resourceApi = meta.page
+  const resourceName = meta.resourceName
+  const resourcePage = meta.page
 
   /** create mantine form and set initial values */
   const form = useForm({
@@ -44,9 +45,9 @@ export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
   const onSubmitHandler = async (formValues: _FormValues) => {
     const rawBody = { ...formValues }
 
-    const body = root.formNormalizeFormValues(rawBody)
+    const body = root.formCreateBody(autocompleteState, rawBody, resourceName)
 
-    const res = await root.httpPost(`/api/${resourceApi}/create`, body)
+    const res = await root.httpPost(`/api/${resourcePage}/create`, body)
     messageSet(res)
     refreshDataSet(!refreshData)
     closeModal()

@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react"
 import { Collection } from "mongodb"
 
 import { global } from "../../../config"
-import { mongoConnect } from "../../../lib/mongoConnect"
+import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -12,8 +12,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (!session)
       return res.status(401).json(root.messageUnauthenticatedRequest())
 
-    const { db } = await mongoConnect()
-    const collection = db.collection("Project")
+    const client = await clientPromise
+    const db = client.db()
+    const collection = db.collection("project")
 
     const body = req.body
 
@@ -72,7 +73,7 @@ function _getCursor({ body, collection }: _Props) {
     {
       /** get related customer resource from matched data */
       $lookup: {
-        from: "Customer",
+        from: "customer",
         localField: "customerId",
         foreignField: "_id",
         /**
@@ -90,7 +91,7 @@ function _getCursor({ body, collection }: _Props) {
     {
       /** get related user resource from matched data */
       $lookup: {
-        from: "User",
+        from: "user",
         localField: "userId",
         foreignField: "_id",
         /**

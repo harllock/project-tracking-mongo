@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "count": "cloc pages components helpers store types config.js"
+    "count": "cloc pages components helpers hooks store types config.js"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

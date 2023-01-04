@@ -40,7 +40,7 @@ export const ToolBar: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
   const [isModalOpen, isModalOpenSet] = useState(false)
 
-  const resource = meta.table.name
+  const resource = meta.resourceName
 
   return (
     <div className={classes.toolBar}>

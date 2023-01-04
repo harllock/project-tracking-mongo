@@ -1,11 +1,15 @@
-import { Autocomplete as MantineAutocomplete } from "@mantine/core"
+import {
+  Autocomplete as MantineAutocomplete,
+  AutocompleteItem,
+} from "@mantine/core"
 import { Dispatch } from "react"
 
+import { root } from "../../helpers/root"
 import { _FormField } from "../../types/interfaces/_FormField"
 import {
   _AutocompleteHookState,
   _AutocompleteHookAction,
-} from "../../types/types/_AutocompleteHook"
+} from "../../types/interfaces/_Autocomplete"
 
 interface _Props {
   autocompleteState: _AutocompleteHookState
@@ -18,14 +22,39 @@ export const Autocomplete: React.FC<_Props> = ({
   autocompleteDispatch,
   field,
 }: _Props) => {
+  /** the autocomplete resource name */
+  const autocompleteResourceName = field.autocompleteData!.resourceName
+  /** the autocomplete resource page*/
+  const autocompleteResourcePage = field.autocompleteData!.resourcePage
+
+  const onChangeHandler = async (searchValue = "") => {
+    /** fetch autocomplete data from dedicated api */
+    const data = await root.httpPost(`/api/common/autocomplete`, {
+      resource: autocompleteResourceName,
+      searchValue,
+    })
+    autocompleteDispatch({
+      type: "loadData",
+      payload: data,
+      resourcePage: autocompleteResourcePage,
+    })
+  }
+
+  const onItemSubmitHandler = (selected: AutocompleteItem) => {
+    autocompleteDispatch({
+      type: "select",
+      payload: selected,
+      resourceName: autocompleteResourceName,
+    })
+  }
+
   return (
     <MantineAutocomplete
       label={field.header}
-      value={autocompleteState.value}
-      data={["a", "b", "c"]}
-      onChange={(searchValue) =>
-        autocompleteDispatch({ type: "update", payload: searchValue })
-      }
+      data={autocompleteState["dropdown"][autocompleteResourcePage]}
+      onClick={() => onChangeHandler()}
+      onChange={(searchValue) => onChangeHandler(searchValue)}
+      onItemSubmit={(selected) => onItemSubmitHandler(selected)}
       mb={"sm"}
     ></MantineAutocomplete>
   )

@@ -6,11 +6,10 @@ export interface _Meta {
   gauges: {
     main: _MainGauge[]
   }
-  page: string
+  page: "customers" | "projects" | "users"
   resourceName: string
   table: {
     formFields: _FormField[]
-    name: string
     related: []
     sortBy: string[]
     tableFields: _TableField[]

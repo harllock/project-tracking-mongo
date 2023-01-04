@@ -2,8 +2,8 @@ import authCompareHash from "./auth/_compareHash"
 import authHashPassword from "./auth/_hashPassword"
 import dateFormat from "./date/_format"
 import dbCreateMagicSearchField from "./db/_createMagicSearchField"
+import formCreateBody from "./form/_createBody"
 import formSetInitialValues from "./form/_setInitialValues"
-import formNormalizeFormValues from "./form/_normalizeFormValues"
 import httpPost from "./http/_post"
 import logError from "./log/_error"
 import messageContactSupport from "./message/_contactSupport"
@@ -22,8 +22,8 @@ export const root = {
   dbCreateMagicSearchField,
 
   /** forms */
+  formCreateBody,
   formSetInitialValues,
-  formNormalizeFormValues,
 
   /** http methods */
   httpPost,

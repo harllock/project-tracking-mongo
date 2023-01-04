@@ -1,7 +1,7 @@
 // @ts-nocheck
 import NextAuth from "next-auth"
 import CredentialProvider from "next-auth/providers/credentials"
-import { mongoConnect } from "../../../lib/mongoConnect"
+import { clientPromise } from "../../../lib/mongodb"
 
 import { root } from "../../../helpers/root"
 
@@ -51,8 +51,9 @@ export default NextAuth({
 
 async function _authorize(credentials) {
   try {
-    const { db } = await mongoConnect()
-    const collection = db.collection("User")
+    const client = await clientPromise
+    const db = client.db()
+    const collection = db.collection("user")
 
     /** search user email in the db */
     const email = credentials?.email

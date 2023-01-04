@@ -35,7 +35,7 @@ export const config: _Config = {
   //         gaugeName: "gaugeMainResultsCount",
   //         title: "items",
   //         color: blue,
-  //         table: "Activity",
+  //         table: "activity",
   //       },
   //     ],
   //     row: [
@@ -50,7 +50,6 @@ export const config: _Config = {
   //   page: "activities",
   //   title: "Activities",
   //   table: {
-  //     name: "Activity",
   //     sortBy: ["startDate DESC"],
   //     related: ["customer", "project", "user"],
   //     tableFields: [
@@ -93,7 +92,7 @@ export const config: _Config = {
   //         name: "customer",
   //         header: "Customer *",
   //         page: "customers",
-  //         table: "Customer",
+  //         table: "customer",
   //         sortBy: ["name"],
   //         related: "project",
   //         relationFilterApi: "/api/relations/findCustomerFromProject",
@@ -103,7 +102,7 @@ export const config: _Config = {
   //         name: "project",
   //         header: "Project *",
   //         page: "projects",
-  //         table: "Project",
+  //         table: "project",
   //         sortBy: ["name"],
   //         related: "customer",
   //         relationFilterApi: "/api/relations/findProjectFromCustomer",
@@ -113,7 +112,7 @@ export const config: _Config = {
   //         name: "user",
   //         header: "User *",
   //         page: "users",
-  //         table: "User",
+  //         table: "user",
   //         sortBy: ["name"],
   //       },
   //       { isNumber: true, name: "extra", header: "Extra cost" },
@@ -152,7 +151,7 @@ export const config: _Config = {
     page: "customers",
     resourceName: "customer",
     table: {
-      name: "Customer",
+      name: "customer",
       sortBy: ["name"],
       related: [],
       tableFields: [
@@ -315,7 +314,7 @@ export const config: _Config = {
   //         gaugeName: "gaugeMainResultsCount",
   //         title: "items",
   //         color: blue,
-  //         table: "Project",
+  //         table: "project",
   //       },
   //       {
   //         gaugeName: "gaugeMainWhereCounter",
@@ -385,7 +384,7 @@ export const config: _Config = {
   //         name: "customer",
   //         header: "Customer *",
   //         page: "customers",
-  //         table: "Customer",
+  //         table: "customer",
   //         sortBy: ["name"],
   //       },
   //       {
@@ -393,7 +392,7 @@ export const config: _Config = {
   //         name: "user",
   //         header: "Owner *",
   //         page: "users",
-  //         table: "User",
+  //         table: "user",
   //         sortBy: ["name"],
   //       },
   //       {
@@ -467,7 +466,6 @@ export const config: _Config = {
     page: "projects",
     resourceName: "project",
     table: {
-      name: "Project",
       sortBy: [],
       related: [],
       tableFields: [
@@ -563,18 +561,26 @@ export const config: _Config = {
           type: _FieldType.NUMBER,
         },
         {
+          autocompleteData: {
+            resourceName: "customer",
+            resourcePage: "customers",
+          },
           default: null,
           header: "Customer *",
           hide: [_Hide.FALSE],
-          key: "customer",
+          key: "customerId",
           selection: [],
           type: _FieldType.AUTOCOMPLETE,
         },
         {
+          autocompleteData: {
+            resourceName: "user",
+            resourcePage: "users",
+          },
           default: null,
           header: "Owner *",
           hide: [_Hide.FALSE],
-          key: "user",
+          key: "userId",
           selection: [],
           type: _FieldType.AUTOCOMPLETE,
         },
@@ -648,7 +654,6 @@ export const config: _Config = {
     page: "users",
     resourceName: "user",
     table: {
-      name: "User",
       sortBy: ["name"],
       related: [],
       tableFields: [
