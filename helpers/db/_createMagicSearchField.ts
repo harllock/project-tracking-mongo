@@ -14,7 +14,7 @@ interface _Props {
  * @params {array} props.noSearchFields - list of body fields that will not
  * be used for magicSearchField
  */
-export default ({ body, noSearchFields }: _Props) => {
+export default ({ body, noSearchFields }: _Props): string => {
   try {
     /**
      * typecast body to be a more generic index signature
@@ -23,8 +23,7 @@ export default ({ body, noSearchFields }: _Props) => {
     const obj = body as unknown as { [key: string]: string }
 
     /**
-     * filteredObj only have properties of which values will be used for
-     * magicSearchField
+     * filteredObj only have properties that will used for magicSearchField
      */
     const filteredObj = root.utilsFilterProps({ obj, props: noSearchFields })
 
@@ -48,5 +47,6 @@ export default ({ body, noSearchFields }: _Props) => {
       where: "helpers/db/_createMagicSearchField.ts",
       stack: error,
     })
+    return ""
   }
 }

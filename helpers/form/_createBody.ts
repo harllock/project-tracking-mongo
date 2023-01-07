@@ -32,6 +32,7 @@ export default (
   return body
 }
 
+/** normalize fields coming from Mantine form */
 function _normalizeFormFields(rawBody: _ObjSignature): _ObjSignature {
   const normalizedFormFields = Object.keys(rawBody).reduce(
     (obj: _ObjSignature, currentValue) => {
@@ -50,6 +51,7 @@ function _normalizeFormFields(rawBody: _ObjSignature): _ObjSignature {
   return normalizedFormFields
 }
 
+/** add fields coming from autocomplete reducer state */
 function _addAutocompleteFieds(
   autocompleteState: _AutocompleteHookState,
   normalizedFormFields: _ObjSignature,
@@ -58,10 +60,21 @@ function _addAutocompleteFieds(
   let body: _ObjSignature = {}
 
   if (resourceName === "project") {
+    /** spread fields coming from Mantine form */
     body = { ...normalizedFormFields }
+
+    /** add related resources ids */
     body["customerId"] = autocompleteState.selection.customer.id
     body["userId"] = autocompleteState.selection.user.id
+
+    /** remove fields not going go mongodb */
+    delete body.customerName
+    delete body.userName
   } else {
+    /**
+     * if resource has not autocomplete fields just return fields from
+     * Mantine Form
+     */
     body = { ...normalizedFormFields }
   }
 

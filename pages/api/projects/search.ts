@@ -1,10 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/react"
 import { Collection } from "mongodb"
+import dayjs from "dayjs"
 
 import { global } from "../../../config"
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
+import {
+  _Project,
+  _ProjectMongo,
+} from "../../../types/interfaces/resources/_Project"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -27,7 +32,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const mongoResult = mongoResultArray[0]
 
     /** extract the data array */
-    const data: {}[] = mongoResult.data
+    const mongoData: _ProjectMongo[] = mongoResult.data
+
+    const data = _formatFromMongo(mongoData)
 
     /**
      * extract the result count
@@ -138,4 +145,23 @@ function _getCursor({ body, collection }: _Props) {
   ])
 
   return cursor
+}
+
+function _formatFromMongo(mongoData: _ProjectMongo[]): _Project[] {
+  const data = mongoData.map((mongoItem) => {
+    const item = {
+      ...mongoItem,
+      _id: mongoItem._id.toString(),
+      cost: mongoItem.cost.toString(),
+      customerId: mongoItem.customerId.toString(),
+      days: mongoItem.days.toString(),
+      deliveryDate: dayjs(mongoItem.deliveryDate).format(),
+      pricing: mongoItem.pricing.toString(),
+      startDate: dayjs(mongoItem.startDate).format(),
+      userId: mongoItem.userId.toString(),
+    }
+    return item
+  })
+
+  return data
 }

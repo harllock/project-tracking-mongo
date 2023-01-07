@@ -17,8 +17,6 @@ const useStyles = createStyles((theme) => ({
     flexDirection: "column",
   },
 
-  rowWrapper: {},
-
   selected: {
     backgroundColor: theme.colors.grape[2],
   },
@@ -79,7 +77,7 @@ export const Rows: React.FC<_Props> = ({ meta, openModal }: _Props) => {
            */
           return (
             <div
-              className={cx(classes.rowWrapper, {
+              className={cx({
                 [classes.closed]: row.status === "closed",
                 [classes.selected]:
                   isRowSelected && selectedRow._id === row._id,

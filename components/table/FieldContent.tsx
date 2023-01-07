@@ -1,4 +1,5 @@
 import { createStyles } from "@mantine/core"
+import dayjs from "dayjs"
 
 import { EditIcon, EditAndKeyIcon } from "./Icons"
 
@@ -47,6 +48,9 @@ export const FieldContent: React.FC<_Props> = ({
       } else {
         return <EditIcon onEditClick={onClickKeyHandler} row={row} />
       }
+    }
+    if (field.type === _FieldType.DATE) {
+      return dayjs(row[key]).format("DD/MM/YYYY")
     } else {
       return row[key]
     }

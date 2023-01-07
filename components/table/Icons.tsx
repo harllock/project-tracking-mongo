@@ -16,7 +16,7 @@ const useStyles = createStyles((theme) => ({
 }))
 
 interface _Props {
-  meta: _Meta
+  meta?: _Meta
   onEditClick: () => void
   row: {
     [key: string]: string
@@ -62,7 +62,7 @@ export const EditAndKeyIcon: React.FC<_Props> = ({
         size="30%"
       >
         <FormUpdatePassword
-          meta={meta}
+          meta={meta!}
           row={row}
           closeModal={() => isModalOpenSet(false)}
         ></FormUpdatePassword>

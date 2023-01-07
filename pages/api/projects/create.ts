@@ -21,20 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const body: _Project = req.body
 
-    const noSearchFields = [
-      "_id",
-      "customerId",
-      "deliveryDate",
-      "magicSearch",
-      "startDate",
-      "userId",
-    ]
-    const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
-    body.magicSearch = magicSearch
-
-    body.cost = "100" /** temp, replace with activities costs */
-
-    const mongoBody = _mongoFormat(body)
+    const mongoBody = _formatForMongo(body)
 
     await collection.insertOne(mongoBody)
 
@@ -50,7 +37,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-function _mongoFormat(body: _Project): _ProjectMongo {
+function _formatForMongo(body: _Project): _ProjectMongo {
+  const noSearchFields = [
+    "_id",
+    "customerId",
+    "deliveryDate",
+    "magicSearch",
+    "startDate",
+    "userId",
+  ]
+
+  const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
+
   const mongoBody: _ProjectMongo = {
     ...body,
     /** convert string date from client side to Date object */
@@ -61,12 +59,16 @@ function _mongoFormat(body: _Project): _ProjectMongo {
     days: +body.days,
 
     /** convert string to Decimal128 */
-    cost: Decimal128.fromString(body.cost),
+    /** cost is fake, replace with activities costs */
+    cost: Decimal128.fromString("100"),
     pricing: Decimal128.fromString(body.pricing),
 
     /** convert string _id to mongodb ObjectId */
+    _id: new ObjectId(body._id),
     customerId: new ObjectId(body.customerId),
     userId: new ObjectId(body.userId),
+
+    magicSearch,
   }
 
   return mongoBody

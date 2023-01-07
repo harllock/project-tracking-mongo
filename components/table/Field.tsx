@@ -66,10 +66,13 @@ export const Field: React.FC<_Props> = ({
         [classes.colored]: selectedRow._id === row._id,
       })}
       onClick={(e) => {
+        /** prevent onClick event on icon fields */
         if (isIcon) return
-        // if click event has mac metaKey or windows ctrlKey properties
-        // (user pressed one of that keys while clicking) then trigger
-        // onClickKeyHandler, otherwise trigger onClickHandler
+        /**
+         * if click event has mac metaKey or windows ctrlKey properties
+         * (user pressed one of that keys while clicking) then trigger
+         * onClickKeyHandler, otherwise trigger onClickHandler
+         */
         e.metaKey || e.ctrlKey ? onClickKeyHandler() : onClickHandler()
       }}
     >

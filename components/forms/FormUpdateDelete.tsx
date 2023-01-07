@@ -2,6 +2,9 @@ import { Button, Select, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useAtom } from "jotai"
 
+import { DatePicker } from "./DatePicker"
+import { Autocomplete } from "./Autocomplete"
+
 import { root } from "../../helpers/root"
 import { messageAtom, refreshDataAtom, selectedRowAtom } from "../../store"
 import { _Meta } from "../../types/interfaces/_Meta"
@@ -53,7 +56,18 @@ export const FormUpdateDelete: React.FC<_Props> = ({
   return (
     <form onSubmit={form.onSubmit(onSubmitHandler)}>
       {fields.map((field, index) => {
+        /** hide fields that should not be showed in FormUpdateDelete */
         if (field.hide.includes(_Hide.UPDATE)) return
+        /** render date type fields using DatePicker component */
+        if (field.type === _FieldType.DATE)
+          return (
+            <DatePicker
+              key={index}
+              field={field}
+              form={form}
+              selectedRow={selectedRow}
+            ></DatePicker>
+          )
         if (field.type === _FieldType.SELECTION)
           return (
             <Select
