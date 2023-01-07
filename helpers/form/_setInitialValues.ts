@@ -33,31 +33,22 @@ export default ({ fields, selectedRow = null }: _Props) => {
   }
 }
 
-/**
- * FormUpdateDelete case:
- * using fields and selectedRow return a new object like this:
- * {country: 'italy', address: 'via roma', ...}
- */
+/** FormUpdateDelete */
 function _setInitialValueForFormUpdateDelete(
   fields: _FormField[],
   selectedRow: { [key: string]: string }
 ): {} {
-  // Object.keys(selectedRow).forEach((key) => {
-  //   if (key === "_id") delete selectedRow[key]
-  // })
   return selectedRow
 }
 
 /**
- * FormCreate case:
+ * FormCreate:
  * return a new object like this:
  * {country: '', address: '', ...}
  */
-
 interface _Obj {
   [key: string]: string
 }
-
 /**
  * set default FormCreate values for mantine form fields;
  * even if some fields are hidden in FormCreate their value is set here

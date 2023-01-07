@@ -7,18 +7,20 @@ import type {
   _AutocompleteHookAction,
 } from "../types/interfaces/_Autocomplete"
 
-export const useAutocomplete = () => {
+const defaultSelection = {
+  customer: { value: "" },
+  project: { value: "" },
+  user: { value: "" },
+}
+
+export const useAutocomplete = (selection = defaultSelection) => {
   const initialState: _AutocompleteHookState = {
     dropdown: {
       customers: [],
       projects: [],
       users: [],
     },
-    selection: {
-      customer: { value: "" },
-      project: { value: "" },
-      user: { value: "" },
-    },
+    selection,
   }
 
   const reducer = (
@@ -30,16 +32,22 @@ export const useAutocomplete = () => {
         case "loadData":
           /**
            * load autocomplete data fetched from dedicated resource api
-           * into the state
+           * into the state dropdown
            */
-          const resourcePage =
-            action.resourcePage /** initialize here for correct typing */
-          return _loadData(state, action, resourcePage)
+          return _loadData(state, action)
 
         case "select":
-          const resourceName =
-            action.resourceName /** initialize here for correct typing */
-          return _select(state, action, resourceName)
+          /**
+           * insert selected autocomplete value into the state selection
+           */
+          return _select(state, action)
+
+        case "setFormUpdateDeleteDefaultValue":
+          /**
+           * set the autocomplete state value that is used for two-way
+           * binding of the autocomplete field value
+           */
+          return _setFormUpdateDeleteDefaultValue(state, action)
 
         default:
           /** throw new error if action is invalid */
@@ -63,21 +71,42 @@ export const useAutocomplete = () => {
 
 function _loadData(
   state: _AutocompleteHookState,
-  action: _AutocompleteHookAction,
-  resourcePage: string
+  action: _AutocompleteHookAction
 ) {
-  const data = action.payload
-  return {
-    ...state,
-    dropdown: { ...state.dropdown, [resourcePage]: data },
+  if (action.type === "loadData") {
+    const data = action.payload
+    const resourcePage = action.resourcePage
+    return {
+      ...state,
+      dropdown: { ...state.dropdown, [resourcePage]: data },
+    }
   }
+  return { ...state }
 }
 
 function _select(
   state: _AutocompleteHookState,
-  action: _AutocompleteHookAction,
-  resourceName: string
+  action: _AutocompleteHookAction
 ) {
-  const item = action.payload
-  return { ...state, selection: { ...state.selection, [resourceName]: item } }
+  if (action.type === "select") {
+    const item = action.payload
+    const resourceName = action.resourceName
+    return { ...state, selection: { ...state.selection, [resourceName]: item } }
+  }
+  return { ...state }
+}
+
+function _setFormUpdateDeleteDefaultValue(
+  state: _AutocompleteHookState,
+  action: _AutocompleteHookAction
+) {
+  if (action.type === "setFormUpdateDeleteDefaultValue") {
+    const value = action.payload
+    const resourceName = action.resourceName
+    return {
+      ...state,
+      selection: { ...state.selection, [resourceName]: value },
+    }
+  }
+  return { ...state }
 }

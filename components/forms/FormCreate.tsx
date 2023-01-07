@@ -5,13 +5,13 @@ import { useAtom } from "jotai"
 import { DatePicker } from "./DatePicker"
 import { Autocomplete } from "./Autocomplete"
 
+import { useAutocomplete } from "../../hooks/useAutocomplete"
+
 import { root } from "../../helpers/root"
 import { messageAtom, refreshDataAtom } from "../../store"
 import { _Meta } from "../../types/interfaces/_Meta"
 import { _FieldType } from "../../types/enum/_FieldType"
 import { _Hide } from "../../types/enum/_Hide"
-
-import { useAutocomplete } from "../../hooks/useAutocomplete"
 
 interface _Props {
   meta: _Meta
@@ -24,11 +24,13 @@ export const FormCreate: React.FC<_Props> = ({ meta, closeModal }: _Props) => {
   /**
    * useAutocomplete hook is initialized here so that every Autocomplete
    * component form inputs share the same hook state data. We need the state
-   * to be shared because some Autocomplete inputs depend on others (ex. project/customer)
-   * If it were initialized inside Autocomplete component each Autocomplete
-   * component would have different state
+   * to be shared because some Autocomplete inputs depend on others
+   * (ex. project/customer on activity resource)
+   * if it were initialized directrly inside Autocomplete component,
+   * each Autocomplete component would have different state
    */
   const [autocompleteState, autocompleteDispatch] = useAutocomplete()
+
   const fields = meta.table.formFields
   const resourceName = meta.resourceName
   const resourcePage = meta.page

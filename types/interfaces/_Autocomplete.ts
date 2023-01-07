@@ -32,3 +32,8 @@ export type _AutocompleteHookAction =
       payload: AutocompleteItem
       resourceName: _ResourceName
     }
+  | {
+      type: "setFormUpdateDeleteDefaultValue"
+      payload: string
+      resourceName: _ResourceName
+    }

@@ -5,10 +5,13 @@ import { useAtom } from "jotai"
 import { DatePicker } from "./DatePicker"
 import { Autocomplete } from "./Autocomplete"
 
+import { useAutocomplete } from "../../hooks/useAutocomplete"
+
 import { root } from "../../helpers/root"
 import { messageAtom, refreshDataAtom, selectedRowAtom } from "../../store"
 import { _Meta } from "../../types/interfaces/_Meta"
 import { _Hide } from "../../types/enum/_Hide"
+import { _FormField } from "../../types/interfaces/_FormField"
 import { _FieldType } from "../../types/enum/_FieldType"
 
 interface _Props {
@@ -26,6 +29,22 @@ export const FormUpdateDelete: React.FC<_Props> = ({
 
   const fields = meta.table.formFields
   const resourceApi = meta.page
+
+  /**
+   * useAutocomplete hook is initialized here so that every Autocomplete
+   * component form inputs share the same hook state data. We need the state
+   * to be shared because some Autocomplete inputs depend on others
+   * (ex. project/customer on activity resource)
+   * if it were initialized directrly inside Autocomplete component,
+   * each Autocomplete component would have different state
+   */
+  const autocompleteInitialValues = _setAutocompleteInitialValues(
+    fields,
+    selectedRow
+  )
+  const [autocompleteState, autocompleteDispatch] = useAutocomplete(
+    autocompleteInitialValues
+  )
 
   const form = useForm({
     initialValues: root.formSetInitialValues({ fields, selectedRow }),
@@ -68,6 +87,16 @@ export const FormUpdateDelete: React.FC<_Props> = ({
               selectedRow={selectedRow}
             ></DatePicker>
           )
+        if (field.type === _FieldType.AUTOCOMPLETE)
+          return (
+            <Autocomplete
+              key={index}
+              field={field}
+              selectedRow={selectedRow}
+              autocompleteState={autocompleteState}
+              autocompleteDispatch={autocompleteDispatch}
+            ></Autocomplete>
+          )
         if (field.type === _FieldType.SELECTION)
           return (
             <Select
@@ -93,4 +122,31 @@ export const FormUpdateDelete: React.FC<_Props> = ({
       <Button type="submit">Update</Button>
     </form>
   )
+}
+
+/**
+ * in FormUpdateDelete when we initialize useAutocomplete custom hook, we
+ * pass the default initial values that autocomplete fields use when rendered
+ */
+interface _ReturnValue {
+  customer: { value: string }
+  project: { value: string }
+  user: { value: string }
+}
+
+function _setAutocompleteInitialValues(
+  fields: _FormField[],
+  selectedRow: { [key: string]: string }
+): _ReturnValue {
+  const defaultSelection = fields.reduce<_ReturnValue>((obj, currentValue) => {
+    /** https://bobbyhadz.com/blog/typescript-reduce-type */
+    if (currentValue.type === _FieldType.AUTOCOMPLETE) {
+      const resourceName = currentValue.autocompleteData!.resourceName
+      const fieldName = currentValue.key
+      obj[resourceName] = { value: selectedRow[fieldName] }
+    }
+    return obj
+  }, {} as _ReturnValue)
+
+  return defaultSelection
 }
