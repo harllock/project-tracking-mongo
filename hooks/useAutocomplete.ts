@@ -8,9 +8,9 @@ import type {
 } from "../types/interfaces/_Autocomplete"
 
 const defaultSelection = {
-  customer: { value: "" },
-  project: { value: "" },
-  user: { value: "" },
+  customer: { value: "", _id: "" },
+  project: { value: "", _id: "" },
+  user: { value: "", _id: "" },
 }
 
 export const useAutocomplete = (selection = defaultSelection) => {

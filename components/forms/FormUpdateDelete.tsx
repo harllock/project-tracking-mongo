@@ -28,7 +28,8 @@ export const FormUpdateDelete: React.FC<_Props> = ({
   const [selectedRow, selectedRowSet] = useAtom(selectedRowAtom)
 
   const fields = meta.table.formFields
-  const resourceApi = meta.page
+  const resourceName = meta.resourceName
+  const resourcePage = meta.page
 
   /**
    * useAutocomplete hook is initialized here so that every Autocomplete
@@ -55,8 +56,10 @@ export const FormUpdateDelete: React.FC<_Props> = ({
   }
 
   const onSubmitHandler = async (formValues: _FormValues) => {
-    const body = { ...formValues }
-    const res = await root.httpPost(`/api/${resourceApi}/update`, body)
+    const rawBody = { ...formValues }
+    const body = root.formCreateBody(autocompleteState, rawBody, resourceName)
+
+    const res = await root.httpPost(`/api/${resourcePage}/update`, body)
     messageSet(res)
     selectedRowSet({})
     refreshDataSet(!refreshData)
@@ -65,7 +68,7 @@ export const FormUpdateDelete: React.FC<_Props> = ({
 
   const onDeleteHandler = async () => {
     const _id = selectedRow._id
-    const res = await root.httpPost(`/api/${resourceApi}/delete`, { _id })
+    const res = await root.httpPost(`/api/${resourcePage}/delete`, { _id })
     messageSet(res)
     selectedRowSet({})
     refreshDataSet(!refreshData)
@@ -92,7 +95,6 @@ export const FormUpdateDelete: React.FC<_Props> = ({
             <Autocomplete
               key={index}
               field={field}
-              selectedRow={selectedRow}
               autocompleteState={autocompleteState}
               autocompleteDispatch={autocompleteDispatch}
             ></Autocomplete>
@@ -129,9 +131,9 @@ export const FormUpdateDelete: React.FC<_Props> = ({
  * pass the default initial values that autocomplete fields use when rendered
  */
 interface _ReturnValue {
-  customer: { value: string }
-  project: { value: string }
-  user: { value: string }
+  customer: { value: string; _id: string }
+  project: { value: string; _id: string }
+  user: { value: string; _id: string }
 }
 
 function _setAutocompleteInitialValues(
@@ -143,7 +145,12 @@ function _setAutocompleteInitialValues(
     if (currentValue.type === _FieldType.AUTOCOMPLETE) {
       const resourceName = currentValue.autocompleteData!.resourceName
       const fieldName = currentValue.key
-      obj[resourceName] = { value: selectedRow[fieldName] }
+      const idField = currentValue.autocompleteData!.idField
+
+      obj[resourceName] = {
+        value: selectedRow[fieldName],
+        _id: selectedRow[idField],
+      }
     }
     return obj
   }, {} as _ReturnValue)

@@ -562,6 +562,7 @@ export const config: _Config = {
         },
         {
           autocompleteData: {
+            idField: "customerId",
             resourceName: "customer",
             resourcePage: "customers",
           },
@@ -574,6 +575,7 @@ export const config: _Config = {
         },
         {
           autocompleteData: {
+            idField: "userId",
             resourceName: "user",
             resourcePage: "users",
           },

@@ -28,9 +28,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     /** item fetched from db are like: [{_id: xxx, name: "Barilla"}] */
     const data = await cursor.toArray()
 
-    /** reformat data in Mantine Autocomplete expected shape: [{id: xxx, value: "Barilla"}] */
+    /** reformat data in Mantine Autocomplete expected shape: [{value: "Barilla", ...}] */
     const result = data.map((item) => {
-      return { value: item.name, id: item._id.toString() }
+      return { value: item.name, _id: item._id.toString() }
     })
 
     res.status(200).json(result)

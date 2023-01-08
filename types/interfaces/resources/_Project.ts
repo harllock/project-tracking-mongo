@@ -7,8 +7,7 @@ import { Decimal128, ObjectId } from "mongodb"
  */
 
 /** project item going to frontend */
-export interface _Project {
-  _id: string
+export interface _ProjectNew {
   cost: string
   customerData: []
   customerId: string
@@ -25,9 +24,13 @@ export interface _Project {
   userName: string
 }
 
-/** project item going to backend */
+export interface _Project extends _ProjectNew {
+  _id: string
+}
+
 export interface _ProjectMongo {
-  _id: ObjectId
+  /** _id present in update action and not present in create action */
+  _id?: ObjectId
   cost: Decimal128
   customerData: []
   customerId: ObjectId

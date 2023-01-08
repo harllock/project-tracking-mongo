@@ -151,7 +151,7 @@ function _formatFromMongo(mongoData: _ProjectMongo[]): _Project[] {
   const data = mongoData.map((mongoItem) => {
     const item = {
       ...mongoItem,
-      _id: mongoItem._id.toString(),
+      _id: mongoItem._id!.toString(),
       cost: mongoItem.cost.toString(),
       customerId: mongoItem.customerId.toString(),
       days: mongoItem.days.toString(),

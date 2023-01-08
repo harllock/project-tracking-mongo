@@ -5,7 +5,7 @@ import { Decimal128, ObjectId } from "mongodb"
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
 import {
-  _ProjectNew,
+  _Project,
   _ProjectMongo,
 } from "../../../types/interfaces/resources/_Project"
 
@@ -19,25 +19,27 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const db = client.db()
     const collection = db.collection("project")
 
-    const body: _ProjectNew = req.body
+    const body: _Project = req.body
 
     const mongoBody = _formatForMongo(body)
 
-    await collection.insertOne(mongoBody)
+    const query = { _id: mongoBody._id }
 
-    return res.status(200).json({ status: "success", text: "Project added" })
+    await collection.replaceOne(query, mongoBody)
+
+    return res.status(200).json({ status: "success", text: "Project updated" })
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not insert new project in db",
-      where: "/api/projects/create.ts",
+      summary: "could not update a project in db",
+      where: "/api/projects/update.ts",
       stack: error,
     })
-    res.status(500).json(root.messageContactSupport())
+    return res.status(500).json(root.messageContactSupport())
   }
 }
 
-function _formatForMongo(body: _ProjectNew): _ProjectMongo {
+function _formatForMongo(body: _Project): _ProjectMongo {
   const noSearchFields = [
     "_id",
     "customerId",
@@ -51,7 +53,6 @@ function _formatForMongo(body: _ProjectNew): _ProjectMongo {
 
   const mongoBody: _ProjectMongo = {
     ...body,
-
     /** convert string date from client side to Date object */
     startDate: new Date(body.startDate),
     deliveryDate: new Date(body.deliveryDate),
@@ -65,7 +66,7 @@ function _formatForMongo(body: _ProjectNew): _ProjectMongo {
     pricing: Decimal128.fromString(body.pricing),
 
     /** convert string _id to mongodb ObjectId */
-    // _id: new ObjectId(body._id),
+    _id: new ObjectId(body._id),
     customerId: new ObjectId(body.customerId),
     userId: new ObjectId(body.userId),
 

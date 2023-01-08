@@ -1,9 +1,11 @@
 import { AutocompleteItem } from "@mantine/core"
 
+type _IdField = "customerId" | "projectId" | "userId"
 type _ResourceName = "customer" | "project" | "user"
 type _ResourcePage = "customers" | "projects" | "users"
 
 export interface _AutocompleteConfig {
+  idField: _IdField
   resourceName: _ResourceName
   resourcePage: _ResourcePage
 }

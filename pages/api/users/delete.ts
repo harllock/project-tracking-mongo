@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not delete a user in db",
+      summary: "could not delete a user from db",
       where: "/api/users/delete.ts",
       stack: error,
     })

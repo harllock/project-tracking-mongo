@@ -64,11 +64,18 @@ function _addAutocompleteFieds(
     body = { ...normalizedFormFields }
 
     /** add related resources ids */
-    body["customerId"] = autocompleteState.selection.customer.id
-    body["userId"] = autocompleteState.selection.user.id
+    body["customerId"] = autocompleteState.selection.customer._id
+    body["userId"] = autocompleteState.selection.user._id
+    /**
+     * remove fields not going go mongodb, following fields are present
+     * depending on the action (create / update)
+     */
 
-    /** remove fields not going go mongodb */
+    delete body.cost /** dynamically calculated */
+    delete body.customerData
     delete body.customerName
+    delete body.magicSearch /** dynamically calculated */
+    delete body.userData
     delete body.userName
   } else {
     /**

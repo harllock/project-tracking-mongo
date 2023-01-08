@@ -22,7 +22,6 @@ export const Autocomplete: React.FC<_Props> = ({
   autocompleteState,
   autocompleteDispatch,
   field,
-  selectedRow,
 }: _Props) => {
   /** the autocomplete resource name */
   const autocompleteResourceName = field.autocompleteData!.resourceName
