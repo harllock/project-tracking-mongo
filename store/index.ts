@@ -2,7 +2,7 @@ import { atom } from "jotai"
 
 import { _Message } from "../types/interfaces/_Message"
 
-export const dataAtom = atom<{}[]>([{}])
+export const dataAtom = atom<{}[]>([])
 
 export const mainGaugesAtom = atom<{
   [key: string]: number

@@ -1,10 +1,12 @@
 import { createStyles } from "@mantine/core"
+import { useAtom } from "jotai"
 
 import { Headers } from "./Headers"
 import { Content } from "./Content"
 import { Pagination } from "./Pagination"
 
 import { _Meta } from "../../types/interfaces/_Meta"
+import { dataAtom } from "../../store"
 
 const useStyles = createStyles(() => ({
   table: {
@@ -28,12 +30,22 @@ interface _Props {
 
 export const Table: React.FC<_Props> = ({ meta }: _Props) => {
   const { classes } = useStyles()
+  const [data] = useAtom(dataAtom)
 
-  return (
-    <div className={classes.table}>
-      <Headers meta={meta}></Headers>
-      <Content meta={meta}></Content>
-      <Pagination meta={meta}></Pagination>
-    </div>
-  )
+  /**
+   * prevent flickering during header link navigation or while waiting
+   * for data fetching
+   */
+  const isDataPresent = data.length === 0 ? false : true
+
+  if (isDataPresent) {
+    return (
+      <div className={classes.table}>
+        <Headers meta={meta}></Headers>
+        <Content meta={meta}></Content>
+        <Pagination meta={meta}></Pagination>
+      </div>
+    )
+  }
+  return <div></div>
 }

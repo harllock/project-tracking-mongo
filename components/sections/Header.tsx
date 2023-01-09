@@ -60,7 +60,7 @@ export const Header: React.FC = () => {
   const { data: session, status } = useSession()
 
   const onClickHandler = () => {
-    dataSet([{}])
+    dataSet([])
     selectedRowSet({})
     magicSearchSet("")
     offsetSet(0)
