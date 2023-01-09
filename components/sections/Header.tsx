@@ -94,8 +94,8 @@ export const Header: React.FC = () => {
         >
           Projects
         </Link>
-        <Link href="/test" className={classes.link} onClick={onClickHandler}>
-          TEST
+        <Link href="/leads" className={classes.link} onClick={onClickHandler}>
+          Lead
         </Link>
         <Link href="/login" className={classes.link} onClick={onSignOutHandler}>
           Sign Out
@@ -112,6 +112,9 @@ export const Header: React.FC = () => {
         </Link>
         <Link href="/users" className={classes.link} onClick={onClickHandler}>
           Users
+        </Link>
+        <Link href="/leads" className={classes.link} onClick={onClickHandler}>
+          Lead
         </Link>
         <Link href="/login" className={classes.link} onClick={onSignOutHandler}>
           Sign Out

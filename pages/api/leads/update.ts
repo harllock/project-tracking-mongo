@@ -4,10 +4,7 @@ import { Decimal128, ObjectId } from "mongodb"
 
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
-import {
-  _Project,
-  _ProjectMongo,
-} from "../../../types/interfaces/resources/_Project"
+import { _Lead, _LeadMongo } from "../../../types/interfaces/resources/_Lead"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -17,9 +14,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const client = await clientPromise
     const db = client.db()
-    const collection = db.collection("project")
+    const collection = db.collection("lead")
 
-    const body: _Project = req.body
+    const body: _Lead = req.body
 
     const mongoBody = _formatForMongo(body)
 
@@ -27,23 +24,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     await collection.replaceOne(query, mongoBody)
 
-    return res.status(200).json({ status: "success", text: "Project updated" })
+    return res.status(200).json({ status: "success", text: "Lead updated" })
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not update a project in db",
-      where: "/api/projects/update.ts",
+      summary: "could not update a lead in db",
+      where: "/api/leads/update.ts",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())
   }
 }
 
-function _formatForMongo(body: _Project): _ProjectMongo {
+function _formatForMongo(body: _Lead): _LeadMongo {
   const noSearchFields = [
     "_id",
     "customerId",
-    "deliveryDate",
     "magicSearch",
     "startDate",
     "userId",
@@ -51,19 +47,16 @@ function _formatForMongo(body: _Project): _ProjectMongo {
 
   const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
 
-  const mongoBody: _ProjectMongo = {
+  const mongoBody: _LeadMongo = {
     ...body,
 
     /** convert string date from client side to Date object */
     startDate: new Date(body.startDate),
-    deliveryDate: new Date(body.deliveryDate),
 
     /** convert strings to integers */
     days: +body.days,
 
     /** convert string to Decimal128 */
-    /** cost is fake, replace with activities costs */
-    cost: Decimal128.fromString("100"),
     pricing: Decimal128.fromString(body.pricing),
 
     /** convert string _id to mongodb ObjectId */
