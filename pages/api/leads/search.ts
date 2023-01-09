@@ -78,7 +78,7 @@ function _getCursor({ body, collection }: _Props) {
       $lookup: {
         /** customer collection */
         from: "customer",
-        /** customer field on lead collection */
+        /** customer field on lead collection, here mongo insert customer id */
         localField: "customerId",
         /** id field in customer collection */
         foreignField: "_id",
@@ -99,7 +99,7 @@ function _getCursor({ body, collection }: _Props) {
       $lookup: {
         /** user collection */
         from: "user",
-        /** user field on lead collection */
+        /** user field on lead collection, here mongo insert user id */
         localField: "userId",
         /** id field in user collection */
         foreignField: "_id",
@@ -138,14 +138,13 @@ function _getCursor({ body, collection }: _Props) {
     {
       /** process result from previous pipelines in following parallel ways: */
       $facet: {
-        /** sort, skip and limit and then insert result in an array called data */
+        /** sort, skip, limit and then insert result in an array called data */
         data: [{ $sort: { name: 1 } }, { $skip: skip }, { $limit: pageSize }],
         /** count result item and insert the number in an array called count */
         count: [{ $count: "count" }],
       },
     },
   ])
-
   return cursor
 }
 

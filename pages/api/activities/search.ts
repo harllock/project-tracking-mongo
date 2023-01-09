@@ -7,9 +7,9 @@ import { global } from "../../../config"
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
 import {
-  _Project,
-  _ProjectMongo,
-} from "../../../types/interfaces/resources/_Project"
+  _Activity,
+  _ActivityMongo,
+} from "../../../types/interfaces/resources/_Activity"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const client = await clientPromise
     const db = client.db()
-    const collection = db.collection("project")
+    const collection = db.collection("activity")
 
     const body = req.body
 
@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const mongoResult = mongoResultArray[0]
 
     /** extract the data array */
-    const mongoData: _ProjectMongo[] = mongoResult.data
+    const mongoData: _ActivityMongo[] = mongoResult.data
     const data = _formatFromMongo(mongoData)
 
     /**
@@ -50,8 +50,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not search projects on db",
-      where: "/api/projects/search.ts",
+      summary: "could not search activities on db",
+      where: "/api/activities/search.ts",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())
@@ -81,7 +81,7 @@ function _getCursor({ body, collection }: _Props) {
       $lookup: {
         /** customer collection */
         from: "customer",
-        /** customer field on project collection, here mongo insert customer id */
+        /** customer field on activity collection, here mongo insert customer id */
         localField: "customerId",
         /** id field in customer collection */
         foreignField: "_id",
@@ -98,11 +98,32 @@ function _getCursor({ body, collection }: _Props) {
       },
     },
     {
+      /** get related project resource from matched data */
+      $lookup: {
+        /** project collection */
+        from: "project",
+        /** project field on activity collection, here mongo insert project id */
+        localField: "projectId",
+        /** id field in project collection */
+        foreignField: "_id",
+        /**
+         * all fields of related project is placed in the new array
+         * field projectData
+         */
+        as: "projectData",
+        /**
+         * filter which project fields will be in projectData;
+         * _id is present by default, we add here only name field
+         */
+        pipeline: [{ $project: { name: 1 } }],
+      },
+    },
+    {
       /** get related user resource from matched data */
       $lookup: {
         /** user collection */
         from: "user",
-        /** user field on project collection, here mongo insert user id */
+        /** user field on activity collection, here mongo insert user id */
         localField: "userId",
         /** id field in user collection */
         foreignField: "_id",
@@ -130,6 +151,16 @@ function _getCursor({ body, collection }: _Props) {
     },
     {
       /**
+       * projectData is an array; extract first element from it, get
+       * projectData.name value and put it in a new handy root level
+       * projectName field
+       */
+      $addFields: {
+        projectName: { $first: "$projectData.name" },
+      },
+    },
+    {
+      /**
        * userData is an array; extract first element from it, get
        * userData.name value and put it in a new handy root level
        * userName field
@@ -151,16 +182,16 @@ function _getCursor({ body, collection }: _Props) {
   return cursor
 }
 
-function _formatFromMongo(mongoData: _ProjectMongo[]): _Project[] {
+function _formatFromMongo(mongoData: _ActivityMongo[]): _Activity[] {
   const data = mongoData.map((mongoItem) => {
     const item = {
       ...mongoItem,
       _id: mongoItem._id!.toString(),
       cost: mongoItem.cost.toString(),
       customerId: mongoItem.customerId.toString(),
-      days: mongoItem.days.toString(),
-      deliveryDate: dayjs(mongoItem.deliveryDate).format(),
-      pricing: mongoItem.pricing.toString(),
+      extra: mongoItem.extra.toString(),
+      hours: mongoItem.hours.toString(),
+      projectId: mongoItem.projectId.toString(),
       startDate: dayjs(mongoItem.startDate).format(),
       userId: mongoItem.userId.toString(),
     }

@@ -18,7 +18,7 @@ export interface _Activity extends _ActivityNew {
 }
 
 /** mongodb formatted activity item*/
-export interface _ProjectMongo {
+export interface _ActivityMongo {
   /** _id present in update action and not present in create action */
   _id?: ObjectId
   cost: Decimal128
