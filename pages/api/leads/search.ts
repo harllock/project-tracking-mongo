@@ -6,10 +6,7 @@ import dayjs from "dayjs"
 import { global } from "../../../config"
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
-import {
-  _Project,
-  _ProjectMongo,
-} from "../../../types/interfaces/resources/_Project"
+import { _Lead, _LeadMongo } from "../../../types/interfaces/resources/_Lead"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -19,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const client = await clientPromise
     const db = client.db()
-    const collection = db.collection("project")
+    const collection = db.collection("lead")
 
     const body = req.body
 
@@ -32,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const mongoResult = mongoResultArray[0]
 
     /** extract the data array */
-    const mongoData: _ProjectMongo[] = mongoResult.data
+    const mongoData: _LeadMongo[] = mongoResult.data
     const data = _formatFromMongo(mongoData)
 
     /**
@@ -50,8 +47,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not search projects on db",
-      where: "/api/projects/search.ts",
+      summary: "could not search leads on db",
+      where: "/api/leads/search.ts",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())
@@ -81,7 +78,7 @@ function _getCursor({ body, collection }: _Props) {
       $lookup: {
         /** customer collection */
         from: "customer",
-        /** customer field on project collection */
+        /** customer field on lead collection */
         localField: "customerId",
         /** id field in customer collection */
         foreignField: "_id",
@@ -102,7 +99,7 @@ function _getCursor({ body, collection }: _Props) {
       $lookup: {
         /** user collection */
         from: "user",
-        /** user field on project collection */
+        /** user field on lead collection */
         localField: "userId",
         /** id field in user collection */
         foreignField: "_id",
@@ -152,15 +149,13 @@ function _getCursor({ body, collection }: _Props) {
   return cursor
 }
 
-function _formatFromMongo(mongoData: _ProjectMongo[]): _Project[] {
+function _formatFromMongo(mongoData: _LeadMongo[]): _Lead[] {
   const data = mongoData.map((mongoItem) => {
     const item = {
       ...mongoItem,
       _id: mongoItem._id!.toString(),
-      cost: mongoItem.cost.toString(),
       customerId: mongoItem.customerId.toString(),
       days: mongoItem.days.toString(),
-      deliveryDate: dayjs(mongoItem.deliveryDate).format(),
       pricing: mongoItem.pricing.toString(),
       startDate: dayjs(mongoItem.startDate).format(),
       userId: mongoItem.userId.toString(),

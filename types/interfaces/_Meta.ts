@@ -6,7 +6,7 @@ export interface _Meta {
   gauges: {
     main: _MainGauge[]
   }
-  page: "customers" | "projects" | "users"
+  page: "customers" | "leads" | "projects" | "users"
   resourceName: string
   table: {
     formFields: _FormField[]

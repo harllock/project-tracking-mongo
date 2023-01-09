@@ -9,8 +9,8 @@ import { useSearch } from "../hooks/useSearch"
 import { config } from "../config"
 import { _Meta } from "../types/interfaces/_Meta"
 
-const Project: React.FC = () => {
-  const meta = config.project
+const Lead: React.FC = () => {
+  const meta = config.lead
 
   /** every time page renders atoms will be filled with fetched data */
   useSearch(meta)
@@ -26,7 +26,7 @@ const Project: React.FC = () => {
   )
 }
 
-export default Project
+export default Lead
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context)

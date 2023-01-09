@@ -6,14 +6,13 @@ import { Decimal128, ObjectId } from "mongodb"
  * proprerties of related customer and user resource
  */
 
-/** project item for the frontend */
-export interface _ProjectNew {
-  cost: string
+/** lead item for the frontend */
+export interface _LeadNew {
+  bid: string
   customerData: []
   customerId: string
   customerName: string
   days: string
-  deliveryDate: string
   description: string
   name: string
   pricing: string
@@ -24,20 +23,19 @@ export interface _ProjectNew {
   userName: string
 }
 
-export interface _Project extends _ProjectNew {
+export interface _Lead extends _LeadNew {
   _id: string
 }
 
-/** projectMongo item for the db */
-export interface _ProjectMongo {
+/** leadMongo item for the db */
+export interface _LeadMongo {
   /** _id present in update action and not present in create action */
   _id?: ObjectId
-  cost: Decimal128
+  bid: string
   customerData: []
   customerId: ObjectId
   customerName: string
   days: number
-  deliveryDate: Date
   description: string
   magicSearch: string
   name: string
