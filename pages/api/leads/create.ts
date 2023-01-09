@@ -4,10 +4,7 @@ import { Decimal128, ObjectId } from "mongodb"
 
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
-import {
-  _ProjectNew,
-  _ProjectMongo,
-} from "../../../types/interfaces/resources/_Project"
+import { _LeadNew, _LeadMongo } from "../../../types/interfaces/resources/_Lead"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -17,31 +14,30 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const client = await clientPromise
     const db = client.db()
-    const collection = db.collection("project")
+    const collection = db.collection("lead")
 
-    const body: _ProjectNew = req.body
+    const body: _LeadNew = req.body
 
     const mongoBody = _formatForMongo(body)
 
     await collection.insertOne(mongoBody)
 
-    return res.status(200).json({ status: "success", text: "Project added" })
+    return res.status(200).json({ status: "success", text: "Lead added" })
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not insert new project in db",
-      where: "/api/projects/create.ts",
+      summary: "could not insert new lead in db",
+      where: "/api/leads/create.ts",
       stack: error,
     })
     res.status(500).json(root.messageContactSupport())
   }
 }
 
-function _formatForMongo(body: _ProjectNew): _ProjectMongo {
+function _formatForMongo(body: _LeadNew): _LeadMongo {
   const noSearchFields = [
     "_id",
     "customerId",
-    "deliveryDate",
     "magicSearch",
     "startDate",
     "userId",
@@ -49,19 +45,17 @@ function _formatForMongo(body: _ProjectNew): _ProjectMongo {
 
   const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
 
-  const mongoBody: _ProjectMongo = {
+  const mongoBody: _LeadMongo = {
     ...body,
 
     /** convert string date from client side to Date object */
     startDate: new Date(body.startDate),
-    deliveryDate: new Date(body.deliveryDate),
 
     /** convert strings to integers */
     days: +body.days,
 
     /** convert string to Decimal128 */
     /** cost is fake, replace with activities costs */
-    cost: Decimal128.fromString("100"),
     pricing: Decimal128.fromString(body.pricing),
 
     /** convert string _id to mongodb ObjectId */

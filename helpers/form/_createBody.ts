@@ -57,26 +57,13 @@ function _addAutocompleteFieds(
   normalizedFormFields: _ObjSignature,
   resourceName: string
 ): _ObjSignature {
-  let body: _ObjSignature = {}
+  /** spread fields coming from Mantine form */
+  let body: _ObjSignature = { ...normalizedFormFields }
 
-  if (resourceName === "project") {
-    /** spread fields coming from Mantine form */
-    body = { ...normalizedFormFields }
-
+  if (resourceName === "project" || resourceName === "lead") {
     /** add related resources ids */
     body["customerId"] = autocompleteState.selection.customer._id
     body["userId"] = autocompleteState.selection.user._id
-    /**
-     * remove fields not going go mongodb, following fields are present
-     * depending on the action (create / update)
-     */
-
-    delete body.cost /** dynamically calculated */
-    delete body.customerData
-    delete body.customerName
-    delete body.magicSearch /** dynamically calculated */
-    delete body.userData
-    delete body.userName
   } else {
     /**
      * if resource has not autocomplete fields just return fields from
@@ -84,6 +71,17 @@ function _addAutocompleteFieds(
      */
     body = { ...normalizedFormFields }
   }
+
+  /**
+   * remove fields not going go mongodb, following fields are present
+   * depending on the action (create / update) and the resource
+   */
+  delete body.cost /** dynamically calculated in create/update apis */
+  delete body.customerData
+  delete body.customerName
+  delete body.magicSearch /** dynamically calculated in create/update apis */
+  delete body.userData
+  delete body.userName
 
   return body
 }
