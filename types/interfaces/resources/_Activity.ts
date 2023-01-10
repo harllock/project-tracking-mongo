@@ -3,10 +3,10 @@ import { Decimal128, ObjectId } from "mongodb"
 /** activity item coming from frontend */
 export interface _ActivityNew {
   cost: string
-  customerId: string
   description: string
   extra: string
   hours: string
+  magicSearch: string
   name: string
   projectId: string
   startDate: string
@@ -23,12 +23,10 @@ export interface _ActivityMongo {
   _id?: ObjectId
   cost: Decimal128
   customerData: []
-  customerId: ObjectId
   customerName: string
   description: string
   extra: Decimal128
   hours: Decimal128
-  magicSearch: string
   name: string
   projectData: []
   projectId: ObjectId

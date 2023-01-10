@@ -1,7 +1,7 @@
 import { createStyles, TextInput } from "@mantine/core"
 import { useAtom } from "jotai"
 
-import { magicSearchAtom } from "../../store"
+import { searchStringAtom } from "../../store"
 
 const useStyles = createStyles(() => ({
   search: {
@@ -14,10 +14,10 @@ const useStyles = createStyles(() => ({
 export const Search: React.FC = () => {
   const { classes } = useStyles()
 
-  const [magicSearch, magicSearchSet] = useAtom(magicSearchAtom)
+  const [searchString, searchStringSet] = useAtom(searchStringAtom)
 
   const onChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
-    magicSearchSet(event.currentTarget.value)
+    searchStringSet(event.currentTarget.value)
   }
 
   return (
@@ -25,7 +25,7 @@ export const Search: React.FC = () => {
       <TextInput
         className={classes.search}
         placeholder="Magic Search"
-        value={magicSearch}
+        value={searchString}
         onChange={onChangeHandler}
       ></TextInput>
     </div>

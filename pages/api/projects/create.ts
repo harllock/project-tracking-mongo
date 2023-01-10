@@ -4,10 +4,6 @@ import { Decimal128, ObjectId } from "mongodb"
 
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
-import {
-  _ProjectNew,
-  _ProjectMongo,
-} from "../../../types/interfaces/resources/_Project"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -19,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const db = client.db()
     const collection = db.collection("project")
 
-    const body: _ProjectNew = req.body
+    const body = req.body
 
     const mongoBody = _formatForMongo(body)
 
@@ -37,19 +33,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-function _formatForMongo(body: _ProjectNew): _ProjectMongo {
+function _formatForMongo(body: { [key: string]: any }) {
   const noSearchFields = [
     "_id",
     "customerId",
     "deliveryDate",
-    "magicSearch",
     "startDate",
     "userId",
   ]
 
   const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
 
-  const mongoBody: _ProjectMongo = {
+  const mongoBody = {
     ...body,
 
     /** convert string date from client side to Date object */

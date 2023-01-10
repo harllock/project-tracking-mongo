@@ -4,7 +4,6 @@ import { Decimal128, ObjectId } from "mongodb"
 
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
-import { _LeadNew, _LeadMongo } from "../../../types/interfaces/resources/_Lead"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -16,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const db = client.db()
     const collection = db.collection("lead")
 
-    const body: _LeadNew = req.body
+    const body = req.body
 
     const mongoBody = _formatForMongo(body)
 
@@ -34,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-function _formatForMongo(body: _LeadNew): _LeadMongo {
+function _formatForMongo(body: { [key: string]: any }) {
   const noSearchFields = [
     "_id",
     "customerId",
@@ -45,7 +44,7 @@ function _formatForMongo(body: _LeadNew): _LeadMongo {
 
   const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
 
-  const mongoBody: _LeadMongo = {
+  const mongoBody = {
     ...body,
 
     /** convert string date from client side to Date object */

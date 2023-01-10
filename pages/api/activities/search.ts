@@ -6,10 +6,6 @@ import dayjs from "dayjs"
 import { global } from "../../../config"
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
-import {
-  _Activity,
-  _ActivityMongo,
-} from "../../../types/interfaces/resources/_Activity"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -32,7 +28,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const mongoResult = mongoResultArray[0]
 
     /** extract the data array */
-    const mongoData: _ActivityMongo[] = mongoResult.data
+    const mongoData = mongoResult.data
+    console.log(1111, JSON.stringify(mongoData[0], null, 3))
+
     const data = _formatFromMongo(mongoData)
 
     /**
@@ -65,112 +63,143 @@ interface _Props {
 
 function _getCursor({ body, collection }: _Props) {
   const skip = body.offset
-  const magicSearch = body.magicSearch
+  const searchString = body.searchString
+  const searchStringRegExp = new RegExp(searchString, "i")
   const pageSize = global.pageSize
-  const search = new RegExp(magicSearch, "i")
 
   const cursor = collection.aggregate([
+    /** match activity items using magicSearch field as a filter */
     {
-      /** match data using magicSearch field as a filter */
       $match: {
-        $and: [{ magicSearch: { $regex: search } }],
+        $and: [{ magicSearch: { $regex: searchStringRegExp } }],
       },
     },
+
+    /** get related user resource from match stage */
     {
-      /** get related customer resource from matched data */
-      $lookup: {
-        /** customer collection */
-        from: "customer",
-        /** customer field on activity collection, here mongo insert customer id */
-        localField: "customerId",
-        /** id field in customer collection */
-        foreignField: "_id",
-        /**
-         * all fields of related customer is placed in the new array
-         * field customerData
-         */
-        as: "customerData",
-        /**
-         * filter which customer fields will be in customerData;
-         * _id is present by default, we add here only name field
-         */
-        pipeline: [{ $project: { name: 1 } }],
-      },
-    },
-    {
-      /** get related project resource from matched data */
-      $lookup: {
-        /** project collection */
-        from: "project",
-        /** project field on activity collection, here mongo insert project id */
-        localField: "projectId",
-        /** id field in project collection */
-        foreignField: "_id",
-        /**
-         * all fields of related project is placed in the new array
-         * field projectData
-         */
-        as: "projectData",
-        /**
-         * filter which project fields will be in projectData;
-         * _id is present by default, we add here only name field
-         */
-        pipeline: [{ $project: { name: 1 } }],
-      },
-    },
-    {
-      /** get related user resource from matched data */
       $lookup: {
         /** user collection */
         from: "user",
-        /** user field on activity collection, here mongo insert user id */
+        /** local field to be used in the lookup*/
         localField: "userId",
         /** id field in user collection */
         foreignField: "_id",
         /**
-         * all fields of related user is placed in the new array
-         * field userData
+         * all fields of related user resource is placed in the new array
+         * field named userData
          */
         as: "userData",
-        /**
-         * filter which user fields will be in userData;
-         * _id is present by default, we add here only name field
-         */
+        /** project only _id (by default) and name from userData */
         pipeline: [{ $project: { name: 1 } }],
       },
     },
+
+    /**
+     * get related project resource from match stage; project holds also
+     * its related customer data
+     */
     {
-      /**
-       * customerData is an array; extract first element from it, get
-       * customerData.name value and put it in a new handy root level
-       * customerName field
-       */
+      $lookup: {
+        /** project collection */
+        from: "project",
+        /** local field to be used in the lookup*/
+        localField: "projectId",
+        /** id field in project collection */
+        foreignField: "_id",
+        /**
+         * all fields of related project resource is placed in the new array
+         * field named projectData
+         */
+        as: "projectData",
+
+        /**
+         * nested lookup
+         * lookup customer data from the related project
+         * !!! customer resource has no relation with activity resource !!!;
+         */
+        pipeline: [
+          {
+            $lookup: {
+              /** customer collection */
+              from: "customer",
+              /** local (inside project) field to be used in the lookup */
+              localField: "customerId",
+              /** id field in the customer collection */
+              foreignField: "_id",
+              /**
+               * all fields of customer related to the project is placed in
+               * the new array field named customerData (nested in projectData)
+               */
+              as: "customerData",
+              /** project only _id (by default) and name from customerData */
+              pipeline: [{ $project: { name: 1 } }],
+            },
+          },
+          /**
+           * project only _id (by default), name and nested array customerData
+           * from projectData
+           */
+          {
+            $project: {
+              name: 1,
+              customerData: 1,
+            },
+          },
+        ],
+      },
+    },
+
+    /**
+     * in this stage the customerData array field nested inside the
+     * projectData array field will be "copied" into the root activity level
+     */
+    {
+      /** create a new root level customerData field */
+      $addFields: {
+        customerData: {
+          /** get 'customerData' property from projectData[0] */
+          $getField: {
+            field: "customerData",
+            input: { $first: { $getField: "projectData" } },
+          },
+        },
+      },
+    },
+
+    /**
+     * extract name from customerData and put in the root level customerName
+     */
+    {
       $addFields: {
         customerName: { $first: "$customerData.name" },
       },
     },
+
+    /**
+     * extract name from projectData and put in the root level projectName
+     */
     {
-      /**
-       * projectData is an array; extract first element from it, get
-       * projectData.name value and put it in a new handy root level
-       * projectName field
-       */
       $addFields: {
         projectName: { $first: "$projectData.name" },
       },
     },
+
+    /**
+     * extract name from userData and put in the root level userName
+     */
     {
-      /**
-       * userData is an array; extract first element from it, get
-       * userData.name value and put it in a new handy root level
-       * userName field
-       */
       $addFields: {
         userName: { $first: "$userData.name" },
       },
     },
+
+    /** remove magicSearch field from result */
     {
-      /** process result from previous pipelines in following parallel ways: */
+      $project: { magicSearch: 0 },
+    },
+
+    /** process result from previous pipelines in following parallel ways: */
+    {
       $facet: {
         /** sort, skip, limit and then insert result in an array called data */
         data: [{ $sort: { name: 1 } }, { $skip: skip }, { $limit: pageSize }],
@@ -182,13 +211,12 @@ function _getCursor({ body, collection }: _Props) {
   return cursor
 }
 
-function _formatFromMongo(mongoData: _ActivityMongo[]): _Activity[] {
+function _formatFromMongo(mongoData: { [key: string]: any }[]) {
   const data = mongoData.map((mongoItem) => {
     const item = {
       ...mongoItem,
       _id: mongoItem._id!.toString(),
       cost: mongoItem.cost.toString(),
-      customerId: mongoItem.customerId.toString(),
       extra: mongoItem.extra.toString(),
       hours: mongoItem.hours.toString(),
       projectId: mongoItem.projectId.toString(),

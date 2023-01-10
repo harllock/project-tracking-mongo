@@ -7,7 +7,7 @@ import { Logo } from "../ui/Logo"
 
 import {
   dataAtom,
-  magicSearchAtom,
+  searchStringAtom,
   offsetAtom,
   refreshDataAtom,
   selectedRowAtom,
@@ -52,7 +52,7 @@ export const Header: React.FC = () => {
   const { classes } = useStyles()
 
   const [, dataSet] = useAtom(dataAtom)
-  const [, magicSearchSet] = useAtom(magicSearchAtom)
+  const [, searchStringSet] = useAtom(searchStringAtom)
   const [, offsetSet] = useAtom(offsetAtom)
   const [refreshData, refreshDataSet] = useAtom(refreshDataAtom)
   const [, selectedRowSet] = useAtom(selectedRowAtom)
@@ -62,7 +62,7 @@ export const Header: React.FC = () => {
   const onClickHandler = () => {
     dataSet([])
     selectedRowSet({})
-    magicSearchSet("")
+    searchStringSet("")
     offsetSet(0)
     /**
      * refresh atom is needed for case when user click on the header link of
@@ -73,7 +73,7 @@ export const Header: React.FC = () => {
 
   const onSignOutHandler = () => {
     selectedRowSet({})
-    magicSearchSet("")
+    searchStringSet("")
     offsetSet(0)
     signOut()
   }
@@ -97,6 +97,13 @@ export const Header: React.FC = () => {
         <Link href="/leads" className={classes.link} onClick={onClickHandler}>
           Lead
         </Link>
+        <Link
+          href="/activities"
+          className={classes.link}
+          onClick={onClickHandler}
+        >
+          Activities
+        </Link>
         <Link href="/login" className={classes.link} onClick={onSignOutHandler}>
           Sign Out
         </Link>
@@ -107,8 +114,12 @@ export const Header: React.FC = () => {
   const UserLinks = () => {
     return (
       <>
-        <Link href="/" className={classes.link} onClick={onClickHandler}>
-          Customers
+        <Link
+          href="/activities"
+          className={classes.link}
+          onClick={onClickHandler}
+        >
+          Activities
         </Link>
         <Link href="/users" className={classes.link} onClick={onClickHandler}>
           Users

@@ -1,7 +1,8 @@
 import { Decimal128, ObjectId } from "mongodb"
 
 /** project item coming from frontend */
-export interface _ProjectNew {
+export interface _ProjectFromClient {
+  _id?: string
   cost: string
   customerId: string
   days: string
@@ -14,18 +15,11 @@ export interface _ProjectNew {
   userId: string
 }
 
-export interface _Project extends _ProjectNew {
-  _id: string
-}
-
 /** mongodb formatted project item*/
-export interface _ProjectMongo {
-  /** _id present in update action and not present in create action */
+export interface _ProjectToMongo {
   _id?: ObjectId
   cost: Decimal128
-  customerData: []
   customerId: ObjectId
-  customerName: string
   days: number
   deliveryDate: Date
   description: string
@@ -34,7 +28,43 @@ export interface _ProjectMongo {
   pricing: Decimal128
   startDate: Date
   status: string
+  userId: ObjectId
+}
+
+/** mongodb formatted project item*/
+export interface _ProjectFromMongo {
+  _id: ObjectId
+  cost: Decimal128
+  customerData: []
+  customerId: ObjectId
+  customerName: string
+  days: number
+  deliveryDate: Date
+  description: string
+  name: string
+  pricing: Decimal128
+  startDate: Date
+  status: string
   userData: []
   userId: ObjectId
+  userName: string
+}
+
+/** project item coming from frontend */
+export interface _ProjectToClient {
+  _id: string
+  cost: string
+  customerData: []
+  customerId: string
+  customerName: string
+  days: string
+  deliveryDate: string
+  description: string
+  name: string
+  pricing: string
+  startDate: string
+  status: string
+  userData: []
+  userId: string
   userName: string
 }

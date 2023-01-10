@@ -4,7 +4,6 @@ import { getSession } from "next-auth/react"
 
 import { clientPromise } from "../../../lib/mongodb"
 import { root } from "../../../helpers/root"
-import { _User } from "../../../types/interfaces/resources/_User"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -16,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const db = client.db()
     const collection = db.collection("user")
 
-    const body: _User = req.body
+    const body = req.body
 
     body.magicSearch = _createMagicSearchField(body)
 
@@ -38,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-function _createMagicSearchField(body: _User) {
+function _createMagicSearchField(body: { [key: string]: any }) {
   const noSearchFields = ["_id", "magicSearch", "password"]
   const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
   return magicSearch

@@ -64,6 +64,11 @@ function _addAutocompleteFieds(
     /** add related resources ids */
     body["customerId"] = autocompleteState.selection.customer._id
     body["userId"] = autocompleteState.selection.user._id
+  }
+  if (resourceName === "activity") {
+    /** add related resources ids */
+    body["projectId"] = autocompleteState.selection.project._id
+    body["userId"] = autocompleteState.selection.user._id
   } else {
     /**
      * if resource has not autocomplete fields just return fields from

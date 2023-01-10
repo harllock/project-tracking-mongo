@@ -28,6 +28,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           $and: matchClause,
         },
       },
+
+      /** remove magicSearch field from result */
+      {
+        $project: { magicSearch: 0 },
+      },
+
       {
         $facet: {
           data: [{ $sort: { name: 1 } }, { $skip: skip }, { $limit: pageSize }],
@@ -73,15 +79,15 @@ function _createMatchClause(body: { [key: string]: string }, session: Session) {
   const role = session.user.role
 
   /** get search string */
-  const magicSearchString = body.magicSearch
+  const searchString = body.searchString
 
   /**
-   * if magicSearchString is empty RegExp will be: /(?:)/i that match
+   * if searchString is empty searchStringRegExp will be: /(?:)/i that match
    * anything case insensitive
-   * if magicSearchString is like 'appl' RegExp will be: /appl/i that match
-   * all items with appl in magicSearch field
+   * if searchString is like 'appl' searchString RegExp will be: /appl/i
+   * that match all items with appl in magicSearch field
    **/
-  const search = new RegExp(magicSearchString, "i")
+  const searchStringRegExp = new RegExp(searchString, "i")
 
   interface _MatchClause {
     magicSearch?: object
@@ -89,7 +95,9 @@ function _createMatchClause(body: { [key: string]: string }, session: Session) {
   }
 
   /** if user has admin role just filter magicSearch field */
-  const matchClause: _MatchClause[] = [{ magicSearch: { $regex: search } }]
+  const matchClause: _MatchClause[] = [
+    { magicSearch: { $regex: searchStringRegExp } },
+  ]
 
   /** if user has user role add user email to the matchClause filter */
   if (role === "user") matchClause.push({ email })

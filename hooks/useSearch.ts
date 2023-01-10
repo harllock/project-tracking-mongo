@@ -5,7 +5,7 @@ import { root } from "../helpers/root"
 import { _Meta } from "../types/interfaces/_Meta"
 import {
   dataAtom,
-  magicSearchAtom,
+  searchStringAtom,
   mainGaugesAtom,
   messageAtom,
   offsetAtom,
@@ -15,7 +15,7 @@ import {
 export const useSearch = (meta: _Meta) => {
   const resourcePage = meta.page
   const [, dataSet] = useAtom(dataAtom)
-  const [magicSearch] = useAtom(magicSearchAtom)
+  const [searchString] = useAtom(searchStringAtom)
   const [, mainGaugesSet] = useAtom(mainGaugesAtom)
   const [, messageSet] = useAtom(messageAtom)
   /** offset is set by Pagination component */
@@ -23,7 +23,7 @@ export const useSearch = (meta: _Meta) => {
   const [refreshData] = useAtom(refreshDataAtom)
 
   useEffect(() => {
-    const body = { offset, magicSearch }
+    const body = { offset, searchString }
 
     const _fetchData = async () => {
       const result = await root.httpPost(`/api/${resourcePage}/search`, body)
@@ -40,7 +40,7 @@ export const useSearch = (meta: _Meta) => {
       return result
     }
 
-    if (magicSearch) {
+    if (searchString) {
       /**
        * is user is typing in search field, slow down data fetching for 1 second;
        * as soon as user types a character in search field this useEffect is
@@ -64,5 +64,5 @@ export const useSearch = (meta: _Meta) => {
         mainGaugesSet({ count })
       })()
     }
-  }, [magicSearch, offset, refreshData])
+  }, [searchString, offset, refreshData])
 }

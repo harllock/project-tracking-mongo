@@ -17,16 +17,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const body = req.body
     const skip = body.offset
-    const magicSearch = body.magicSearch
+    const searchString = body.searchString
     const pageSize = global.pageSize
-    const search = new RegExp(magicSearch, "i")
+    const searchStringRegExp = new RegExp(searchString, "i")
 
     const cursor = collection.aggregate([
       {
         $match: {
-          $and: [{ magicSearch: { $regex: search } }],
+          $and: [{ magicSearch: { $regex: searchStringRegExp } }],
         },
       },
+
+      /** remove magicSearch field from result */
+      {
+        $project: { magicSearch: 0 },
+      },
+
       {
         $facet: {
           data: [{ $sort: { name: 1 } }, { $skip: skip }, { $limit: pageSize }],
@@ -42,7 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const mongoResult = mongoResultArray[0]
 
     /** extract the data array */
-    const data: {}[] = mongoResult.data
+    const data = mongoResult.data
 
     /**
      * extract the result count

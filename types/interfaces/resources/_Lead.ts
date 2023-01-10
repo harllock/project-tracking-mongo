@@ -6,6 +6,7 @@ export interface _LeadNew {
   customerId: string
   days: string
   description: string
+  magicSearch: string
   name: string
   pricing: string
   startDate: string
@@ -27,7 +28,6 @@ export interface _LeadMongo {
   customerName: string
   days: number
   description: string
-  magicSearch: string
   name: string
   pricing: Decimal128
   startDate: Date

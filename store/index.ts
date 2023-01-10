@@ -16,6 +16,6 @@ export const offsetAtom = atom<number>(0)
 /** make useSearch hook re-fetch data when needed */
 export const refreshDataAtom = atom<boolean>(false)
 
-export const magicSearchAtom = atom<string>("")
+export const searchStringAtom = atom<string>("")
 
 export const selectedRowAtom = atom<{ [key: string]: string }>({})
