@@ -13,20 +13,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const client = await clientPromise
     const db = client.db()
-    const collection = db.collection("project")
+    const collection = db.collection("activity")
 
     const body = req.body
 
     const mongoBody = _formatForMongo(body)
 
-    await collection.insertOne(mongoBody)
+    const query = { _id: mongoBody._id }
 
-    return res.status(200).json({ status: "success", text: "Project added" })
+    await collection.replaceOne(query, mongoBody)
+
+    return res.status(200).json({ status: "success", text: "Activity updated" })
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not insert new project in db",
-      where: "/api/projects/create.ts",
+      summary: "could not update an activity in db",
+      where: "/api/activities/update.ts",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())
@@ -34,13 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 function _formatForMongo(body: { [key: string]: any }) {
-  const noSearchFields = [
-    "_id",
-    "customerId",
-    "deliveryDate",
-    "startDate",
-    "userId",
-  ]
+  const noSearchFields = ["_id", "projectId", "startDate", "userId"]
 
   const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
 
@@ -49,18 +45,15 @@ function _formatForMongo(body: { [key: string]: any }) {
 
     /** convert string date from client side to Date object */
     startDate: new Date(body.startDate),
-    deliveryDate: new Date(body.deliveryDate),
-
-    /** convert strings to integers */
-    days: +body.days,
 
     /** convert string to Decimal128 */
-    /** cost is fake, replace with activities costs */
     cost: Decimal128.fromString("100"),
-    pricing: Decimal128.fromString(body.pricing),
+    extra: Decimal128.fromString(body.extra),
+    hours: Decimal128.fromString(body.hours),
 
     /** convert string _id to mongodb ObjectId */
-    customerId: new ObjectId(body.customerId),
+    _id: new ObjectId(body._id),
+    projectId: new ObjectId(body.projectId),
     userId: new ObjectId(body.userId),
 
     magicSearch,

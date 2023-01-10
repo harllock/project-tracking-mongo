@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb"
 import type { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/react"
 
@@ -12,22 +13,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const client = await clientPromise
     const db = client.db()
-    const collection = db.collection("customer")
+    const collection = db.collection("activity")
 
     const body = req.body
 
-    const noSearchFields = ["_id"]
-    const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
-    body.magicSearch = magicSearch
+    const objectId = new ObjectId(body._id)
+    const query = { _id: objectId }
 
-    await collection.insertOne(body)
+    await collection.deleteOne(query)
 
-    return res.status(200).json({ status: "success", text: "Customer added" })
+    return res.status(200).json({ status: "success", text: "Activity deleted" })
   } catch (error) {
     root.logError({
       section: "api",
-      summary: "could not insert new customer in db",
-      where: "/api/customers/create.ts",
+      summary: "could not delete an activity from db",
+      where: "/api/activities/delete.ts",
       stack: error,
     })
     return res.status(500).json(root.messageContactSupport())

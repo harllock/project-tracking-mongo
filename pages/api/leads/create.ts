@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       where: "/api/leads/create.ts",
       stack: error,
     })
-    res.status(500).json(root.messageContactSupport())
+    return res.status(500).json(root.messageContactSupport())
   }
 }
 

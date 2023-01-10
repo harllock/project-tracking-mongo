@@ -61,7 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     /** create the result object */
     const result = { data, count }
 
-    res.status(200).json(result)
+    return res.status(200).json(result)
   } catch (error) {
     root.logError({
       section: "api",
