@@ -38,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 function _createMagicSearchField(body: { [key: string]: any }) {
-  const noSearchFields = ["_id", "magicSearch", "password"]
+  const noSearchFields = ["_id", "password"]
   const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
   return magicSearch
 }

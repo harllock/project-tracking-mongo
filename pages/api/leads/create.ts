@@ -34,13 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 function _formatForMongo(body: { [key: string]: any }) {
-  const noSearchFields = [
-    "_id",
-    "customerId",
-    "magicSearch",
-    "startDate",
-    "userId",
-  ]
+  const noSearchFields = ["_id", "customerId", "startDate", "userId"]
 
   const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
 

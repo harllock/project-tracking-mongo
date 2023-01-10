@@ -67,6 +67,11 @@ function _addAutocompleteFieds(
   }
   if (resourceName === "activity") {
     /** add related resources ids */
+    /**
+     * note that customerId is not added because customer is not related
+     * to activity; customer is only used to filter project during form
+     * create and update submission
+     */
     body["projectId"] = autocompleteState.selection.project._id
     body["userId"] = autocompleteState.selection.user._id
   } else {
@@ -84,7 +89,8 @@ function _addAutocompleteFieds(
   delete body.cost /** dynamically calculated in create/update apis */
   delete body.customerData
   delete body.customerName
-  delete body.magicSearch /** dynamically calculated in create/update apis */
+  delete body.projectData
+  delete body.projectName
   delete body.userData
   delete body.userName
 

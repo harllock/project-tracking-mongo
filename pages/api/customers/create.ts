@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const body = req.body
 
-    const noSearchFields = ["_id", "magicSearch"]
+    const noSearchFields = ["_id"]
     const magicSearch = root.dbCreateMagicSearchField({ body, noSearchFields })
     body.magicSearch = magicSearch
 

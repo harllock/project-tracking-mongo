@@ -29,7 +29,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     /** extract the data array */
     const mongoData = mongoResult.data
-    console.log(1111, JSON.stringify(mongoData[0], null, 3))
 
     const data = _formatFromMongo(mongoData)
 

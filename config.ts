@@ -135,6 +135,10 @@ export const config: _Config = {
           selection: [],
           type: _FieldType.NUMBER,
         },
+        /**
+         * customer in not related to activity; only used here to filter
+         * customers in autocomplete field for FormCreate and FormUpdateDelete
+         */
         {
           autocompleteData: {
             idField: "customerId",
